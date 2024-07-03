@@ -14,4 +14,5 @@
 - 서로 다른 지역(Region)에서는 내부적으로 서로 데이터를 주고 받을 수 없다 (인터넷을 통한 주고 받기는 가능하나 전용망을 사용 못한다는 개념임)
   - Ex) 도쿄 지역 -> 캘리포니아 지역 데이터를 주고 받을 수 없음
 
-![image](https://github.com/edel1212/awsStudy/assets/50935771/8fd4e091-fa7e-4caf-bb65-e58b6ed0f925)
+![image](https://github.com/edel1212/awsStudy/assets/50935771/8583dd7f-6c1d-40a3-b872-c0a014557a53)
+
