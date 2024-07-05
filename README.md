@@ -16,3 +16,9 @@
 
 ![image](https://github.com/edel1212/awsStudy/assets/50935771/8583dd7f-6c1d-40a3-b872-c0a014557a53)
 
+### AMI(Amozon Machine Image)
+- 아마존에서 사용하는 각각의 운영 체제의 Image 라고 보면된다
+  - Docker를 생각하면 쉽게 이해 가능
+ 
+### vCpu
+- 아마존에서 지정한 가방 Cpu이다. 물리적 Cpu를 나눠 놓은 것
