@@ -73,12 +73,23 @@
 ## 원격 제어
 - 기본 적으로 인스턴스를 생성할 때 적용한 키 페어(`name.pem`)파일이 있어야 한다.
   - 또한 있더라도 `chmod 400`을 통해 접근 권한을 제어해 주자
-- 연결 방법
+- 연결 방법 - Linux 계열
   - 인스턴스 우 클릭
   - 연결을 누리면 사용 방법이 잘 작성 되어 있다.
     - Mac의 경우 `ssh`가 내장되어 바로 사용 가능
     
     ![image](https://github.com/user-attachments/assets/a7068898-cd1e-43eb-9cd4-dd4caa044a4b)
+- 연결 방법 - Window
+  - ⭐️ 주의 사항으로 RDP포트(`3389`) 인바운드 허용이 되어 있어야한다.
+ 
+    ![image](https://github.com/user-attachments/assets/2f31b526-5b8b-41a1-bb32-91e979e57b5c)
+
+  - Microsoft에서 제공해주는 원격 제어 프로그램을 다운로드
+  - 아마존에서 제공해준 `대상.rdp`파일을 실행 시키면 진행이 가능하다.
+    - 비밀번호를 입력할 경우 웹사이트 내 나의 `pem`파일을 업로드하여 비밀번호로 변환 값 사용
+
+    
+
 
 
   
