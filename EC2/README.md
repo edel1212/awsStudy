@@ -158,3 +158,23 @@
 ```
  ![image](https://github.com/user-attachments/assets/46fc28ad-c846-4cb2-8050-4f9a604e6832)
   
+
+## ELB(Elastic Load Balancing) - 로드 밸런싱
+```properties
+# 💬 수신 트래픽의 변화에 따라 자동으로 로드 밸런서 용량을 확장
+#    ㄴ> 설정 몇 번으로 쉽게 적용이 가능하다.
+#    ㄴ> Health Check 또한 쉽게 설정이 가능
+# ℹ️ 보안 관련 접근(인바운드) 하려는 포트는 80 or 443만 적용해주면 된다.
+#   ㄴ> SSH를 통해 들어가고 할 일이 없기 때문이다.
+```
+- 로드 밸런서 유형
+  - Application Load Balancer 
+    - HTTP 및 HTTPS 와 같은 Application 경우
+  - Network Load Balancer
+    - 초고성능, 대규모 TLS 오프로딩, 중앙 집중화된 인증서 배포, UDP에 대한 지원 및 고정 IP 주소가 필요한 경우
+  - Gateway Load Balancer
+    - GENEVE를 지원하는 서드 파티 가상 어플라이언스 플릿을 배포 및 관리해야 할 경우
+- 주의사항
+  - 로드밸런싱을 적용할 인스턴스 그룹을 만들어야 한다.
+  - `Health Check`의 경우 인스턴스 그룹을 만들때 같이 설정 한다.
+    - 상태 검사 -> 고급 상태 검사 설정
