@@ -179,3 +179,22 @@
     - 그룹을 만들 경우 적용 대상 인스턴스 체크 후 대상 등록 버튼을 눌러 하위 등록 칸에 등록을 해줘야 한다
   - `Health Check`의 경우 인스턴스 그룹을 만들때 같이 설정 한다.
     - 상태 검사 -> 고급 상태 검사 설정
+  - ⭐️ 살질 오래 함 ..`Load Balancer`를 적용하기 위한 인스턴스들의 접근 제어 프로토콜을 열어주자
+    - `Load Balancer`에서 접근하려는 Port 및 `Health Check` Port 안그러면 오류 발생
+      - Load Balancer 내부 인스턴스 연결 포트 접근이 안될 경우 
+
+        ![img_6.png](img_6.png)
+    
+      - Health Check Error
+      
+        ![img_4.png](img_4.png)
+            
+      - `Load Balancer` 접근 Port 확인
+        - 로드 밸런싱 -> 로드밸런서 -> 대상 선택 -> 리스너 및 규칙 ( 연결 규칙을 지정할 수 있다. )
+      
+        ![img_3.png](img_3.png)
+    
+      - `Health Check` Port 확인
+        - 로드 밸런싱 -> 대상 그룹 -> 그룹 선택 -> 상태 검사 -> 상태 검사 설성 편집
+        
+        ![img_5.png](img_5.png)
