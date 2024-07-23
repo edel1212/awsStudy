@@ -82,7 +82,20 @@
   - 단 한개의 가용 영역에만 보관
   - 최소 용량 및 저장 기간이 존재
   - 사용 사례 : 자주 사용하지 않으며 쉽게 복구가 가능한 파일 (썸네일)
-- 아카이브 - 
+- 아카이브 ( 자주 접근되지 않는 데이터를 장기간 보관하기 위한 스토리지 클래스 )
   - Glacier Instant Retrieval
   - Glacier Flexible Retrieval
   - Glacier Deep Archive
+
+## IAM 정책 종류
+- Identity-based policies(자격 증명 정책 기반)
+  - 누가(Principal) 대상(Resource)에 작업(Action)을 조건(Condition)에 따라 허용여부(Effect)를 결정하는 것
+  - 자격 증명(IAM 유저, 그룹, 역할)에 **부여하는 정책**
+  - 해당 **자격 증명**이 **무엇을 할 수 있는지** 허용
+- Resources-based policies(리소스 기반 정책)
+  - 대상(Resource) 이 누구(Principal) 에 작업(Action)을 조건(Condition)에 따라 허용 여부(Effect)를 결정하는 것
+  - 리소스(SC, SQS, CPC, KMS 등[기능])에 부여하는 정책
+  - 해당 리소스에 누가 무엇을 할 수 있는가 허용 기능
+    - Ex) SQS 대기열에 Lamda가 접근 가능
+
+
