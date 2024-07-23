@@ -44,3 +44,19 @@
 - Versioning을 통해 파일 관리 가능
 - 엑세스 로그 생성 및 전송이 가능
   - 다른 버킷 혹은 다른 계정으로 전송이 가능하다.
+
+## 간단한 사용
+- 시나리오
+  - S3 내 버킷에 `index.php`파일을 저장
+  - EC2 인스턴스를 올릴 때 httpd 설치 후 S3에서 해당 `index.php`파일을 받아와 가져옴
+- 주의 사항
+  - 인스턴스 생성 시 고급 세부 정보 -> `IAM(Identity and Access Management)` 설정을 통해 EC2가 S3에 접근 권한을 가져야한다.
+ 
+      ![image](https://github.com/user-attachments/assets/a271ac53-3aa4-468d-9a18-9a3beceff8e1)
+  
+- 방법
+  - S3 버킷명 생성
+  - 생성된 버킷에 파일을 저장
+    - 해당 버킷명 복사
+  - 인스턴스 생성
+    - 고급 세부 정보 내 사용자 데이터에 실행 시 진행 코드 설정
