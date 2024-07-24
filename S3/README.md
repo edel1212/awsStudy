@@ -167,3 +167,24 @@
     - 가버넌스 모드 : 특별한 권한없이 삭제 혹은 잠금 설정 변경이 불가능      
   - 법적 보존
     - `Hold`를 객체에 부여하고 `Hold`가 존재하는 한 객체 수정, 삭제 불가능
+
+
+## S3 객체 암호화
+- 암호화 구성
+  - On Transit : SSL/TLS (`HTTPS`)
+  - At Rest(Server Side)
+    - SSE S3 : S3 자체 내에서 알아서 암호화 ( 직접 관여 X )
+
+     ![image](https://github.com/user-attachments/assets/fab53264-2a79-4965-8d2c-3318e98541a5)
+  
+    - SSE KMS(서버측 암호화) : AWS KMS 서비스를 이용하여 암호화 ( KMS 인증 키 관여 가능 )
+     - 해당 `KMS Key`를 사용해서 누가 사용할 수 있냐에 따 권한을 나눠서 사용이 가능하다.
+     - S3 자체에서도 KMS 접근 권한이 있어야한다.
+ 
+     ![image](https://github.com/user-attachments/assets/9515d013-97d3-402d-9869-354c94d797f2)
+ 
+    - SSE C(고객 제공 키) : 클라이언트에서 제공하는 암호를 통해 암호화
+      - 직접 우리가 Key를 관리해야한다.
+     
+      ![image](https://github.com/user-attachments/assets/b2285c1e-1a4e-45fa-9ac7-c7aeafec51bc)
+
