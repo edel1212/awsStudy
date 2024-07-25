@@ -188,3 +188,20 @@
      
       ![image](https://github.com/user-attachments/assets/b2285c1e-1a4e-45fa-9ac7-c7aeafec51bc)
 
+
+## S3 정적 호스팅
+- S3를 사용해서 정적 콘텐츠를 호스팅 하는것이 가능하다.
+  - 별도의 서버 없이 웹호스팅이 가능함
+- 사용 사례 : 대규모 접속이 예상되는 사전 예약 페이지, 홍보 페이지 와 같은 컨텐츠가 정적이며 접근이 잦은 페이지
+- ### 필요 사항
+  - 불특정 다수에게 허용 되므로 모두에게 접근 허용 부여가 필요하다
+    - `S3 Block Public Access` 해제 필요
+    - `Bucket Policy`에서 정책 허용 필요
+- ### 선택 사항
+  - `Route 53`에서 보유한 도메인과 연결이 가능하다.
+    - ℹ️ 단! 버킷 명 == 호스팅 주소(도메인명)과 같아야한다.
+      - Ex) 도메인 명 : `yoo.co.kr` == 버킷명 `yoo.co.kr` 
+- ### `Amazon CloudFront`와 연동
+  - HTTPS 프로토콜을 구현을 위해서는 `CloudFront`와 연동이 필요하다.
+    - ACM을 통한 SSL 키 관리가 가장 편한 방법임
+    - Public Hosting의 활성화 대신 그대로 Private 모드로 두고 OAI/OAC등을 활용해서 보안을 강화한다.
