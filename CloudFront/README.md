@@ -44,17 +44,3 @@
 ## Signed URL 기능
 - CloudFront는 허용된 사용자에게만 접근할 수 있는 signed url 제공
   - 특정 구독 기능을 통해 사용자가 URL에 접근하는 것을 제한 할 수 있다.
-
-
-## 간단 사용 예제
-- EC2 인스턴스 생성
-  - 인스턴스의 DNS 주소 복사
-- CloudFront -> 배포 생성
-- `Origin domain` 내 복사한 DNS 지정
-- 뷰어 프로토콜 HTTP and HTTPS로 지정 
-- 보안 설정
-- 배포 생성
-- 생성된 도메인으로 접속 시 `HTTPS` 접속 확인
-
-
-![img.png](img.png)
