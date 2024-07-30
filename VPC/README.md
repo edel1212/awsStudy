@@ -69,3 +69,24 @@
         - NAT(`Network Adress Translation`) : 사설IP <-> 공용 IP
 - `Route Table`에서 경로 설정 후에 접근 가능
 -  무료
+
+
+### 보안 그룹(Security Group)
+- NACL(Network Access Control List)과 함께 **방화벽**의 역할을 하는 서비스
+- Port 허용
+    - 기본적으로 모든 포트는 비활성화 처리 되어 있다.
+    - 선택적으로 트래픽이 지나갈 수 있는 Port와 Sorce를 설정 가능하다
+    - Deny는 불가능 -> NACL로 가능하다
+- 인스턴스 단위
+    - 하나의 인스턴스에 하나 이상의 Security Group 설정이 가능하다.
+        - NACL의 경우 서브넷 단위이다.
+    - 설정된 인스턴스는 설정한 모든 Security Group의 룰을 적용한다.
+    - 기본 5개 최대 16개 설정이 가능하다
+- 상태 구조 
+    - Security Group : StageFul
+        - `out bound allow : none`인 경우에도 들어온 트래픽이 허용이라면 Response 해준다
+            ![alt text](image-5.png)
+    - NACL : StateLess
+        - ℹ️ `out bound allow` 설정이 없을 경우 응답이 불가능하다.
+        - `in/out` 포트 설정을 해줘야 요청 및 응답이 가능하다
+            ![alt text](image-6.png)
