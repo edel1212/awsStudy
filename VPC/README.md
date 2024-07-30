@@ -72,20 +72,45 @@
 
 
 ### 보안 그룹(Security Group)
+![alt text](image-9.png)
 - NACL(Network Access Control List)과 함께 **방화벽**의 역할을 하는 서비스
-- Port 허용
-    - 기본적으로 모든 포트는 비활성화 처리 되어 있다.
-    - 선택적으로 트래픽이 지나갈 수 있는 Port와 Sorce를 설정 가능하다
-    - Deny는 불가능 -> NACL로 가능하다
-- 인스턴스 단위
+- 기본적으로 모든 포트는 비활성화 처리 되어 있다.
+- 선택적으로 트래픽이 지나갈 수 있는 Port와 Sorce를 설정 가능하다
+- 포트를 `Deny` 설정이 불가능 하다
+- 인스턴스 단위이다.
     - 하나의 인스턴스에 하나 이상의 Security Group 설정이 가능하다.
-        - NACL의 경우 서브넷 단위이다.
     - 설정된 인스턴스는 설정한 모든 Security Group의 룰을 적용한다.
     - 기본 5개 최대 16개 설정이 가능하다
 - 상태 구조 
     - Security Group : StageFul
         - `out bound allow : none`인 경우에도 들어온 트래픽이 허용이라면 Response 해준다
             ![alt text](image-5.png)
+    - NACL : StateLess
+        - ℹ️ `out bound allow` 설정이 없을 경우 응답이 불가능하다.
+        - `in/out` 포트 설정을 해줘야 요청 및 응답이 가능하다
+            ![alt text](image-6.png)
+
+
+### 네트워크 ACL(NACL)
+![alt text](image-10.png)
+- Security Group과 같은 방화벽 역할을 해준다.
+- 서브넷 단위이다.
+- 포트 및 아이피를 직접 `Deny`가능하다
+    - 외부 공격을 받는 상황등 특정 아이피를 막는 것이 가능하다.
+- 순서대로 규칙 평가(평가가 낮은 순 **규칙 번호 순**)
+    - 잘 못된 규칙 설정
+        ![alt text](image-7.png)
+    - 잘된 규칙 설정
+        ![alt text](image-8.png)
+    - NACL 규칙
+        - 규칙 번호 : 규칙에 부여되는 고유 번호
+            - AWS는 100단위 증가를 권장
+        - 유형 : 미리 지정된 프로토콜, 선택 시 AWS에서 `Well Known Prot` 규칙 지정
+        - 프로토콜 종류
+        - 포트 범위
+        - 소스 : IP 주소의 CIDR 블록
+        - 👍 허용/거부 : `Security Group`차이점임 거부 설정이 가능함
+- 상태 구조 
     - NACL : StateLess
         - ℹ️ `out bound allow` 설정이 없을 경우 응답이 불가능하다.
         - `in/out` 포트 설정을 해줘야 요청 및 응답이 가능하다
