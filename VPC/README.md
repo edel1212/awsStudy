@@ -136,3 +136,34 @@
 
 - `NAT Instance` 와 `NAT Gateway` 둘 다 Private한 공간에 있는 EC2를 대신해서 외부와 통신하여 데이터를 전송해주는 역할을 해준다.
   - **대신** 무언가를 전달하거나 진행해주는 역할을 해준다고 이해하면 쉽다
+
+### 실습
+
+- #### VPC 관련 정보
+  - 커스텀 VPC 생성 시 만들어지는 리소스
+    - 종류
+      - 라우팅 테이블
+      - 기본 NACL
+      - 기본 보안그룹
+    - 서브넷 생성 시 모두 기본 라우팅 테이블로 자동 연동
+- 서브넷 생성 시 AWS는 총 5개의 IP를 미리 점유한다.
+  - `0~3,255`
+- VPC에는 단 하나의 Internet Gateway만 생성 가능하다.
+  - Internet Gateway 생성 후 직접 VPC 연동이 필요하다.
+  - Internet Gateway 는 **자체적으로** `고가용성/장애 내구성`을 확보
+- 보안 그룹은 VPC 단위이다.
+- 서브넷은 가용영역 단위와 같다 (서브넷 1개 == 가용영역 1개)
+- 가장 작은 서브넷 단위는 `CIDR : /24`(11개, 16-5)이다
+
+- #### 실습 내용
+  - 커스텀 VPC 생성 (10.0.0.0/16)
+  - 총 Subnet 3개 생성
+    - Public 공간
+    - Private 공간
+    - DB 공간 (Private)
+  - 각 Subnet에 각각 Routing Table 연동
+  - Public Subnet에 인터넷 경로 구성 (`Internet Gateway` 연결)
+  - `Public / Pirvat` Subnet에 EC2 생성
+    - 각각 외부에서 접근 테스트
+  - DB Subnet에는 Databse 생성
+    - NAT Gateway Setup
