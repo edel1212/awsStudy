@@ -124,7 +124,15 @@
     - `in/out` 포트 설정을 해줘야 요청 및 응답이 가능하다
       ![alt text](image-6.png)
 
-### NAT Gateway
+### "NAT" Gateway
+
+![Alt text](image-11.png)
 
 - VPC의 Private Subnet(폐쇄지역)에 있는 인스턴스에서 인터넷에 쉽게 연결 할 수 있도록 지원하는 가용성이 높은 AWS 괸리형 서비스이다.
 - Private 인스턴스가 외부의 인터넷과 통신하기 위한 통로이다.
+- `NAT Instance`는 단일 EC2 인스턴스이며 NAT Grateway 둘다 모두 서브넷 단위이다.
+
+  - `Pulbic Subnet`에 있어야한다.
+
+- `NAT Instance` 와 `NAT Gateway` 둘 다 Private한 공간에 있는 EC2를 대신해서 외부와 통신하여 데이터를 전송해주는 역할을 해준다.
+  - **대신** 무언가를 전달하거나 진행해주는 역할을 해준다고 이해하면 쉽다
