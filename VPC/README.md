@@ -252,4 +252,6 @@
     - 생성된 `EC2`에 연결하려 하면 연결이 불가능하다.
       - `Internet G/W`가 없기 때문이다.
         ![Alt text](image-22.png)
-      - 연결 방법은 `.pem`을 통해 연결하는 방법 밖에 없다
+      - 해당 실습에서는 `Bastion Host`을 사용해서 외부 접근이 가능한 EC2를 사용하여 접근한다
+  - `Bastion Host` 활용 Private 연결
+    - Public Subnet EC2 내 Private EC2의 `~.pem`파일 복사
