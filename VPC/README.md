@@ -255,3 +255,15 @@
       - 해당 실습에서는 `Bastion Host`을 사용해서 외부 접근이 가능한 EC2를 사용하여 접근한다
   - `Bastion Host` 활용 Private 연결
     - Public Subnet EC2 내 Private EC2의 `~.pem`파일 복사
+      - 권한 변경이 필요하다 `chmod 400 대상`
+    - 접근 하기 위한 `Private Subnet` IP 확인
+    - ssh 명령어를 통해 접속
+      - `ssh -i "{대상pem파일}" ec2-user@{{대상 IP}}`
+  - DB EC2
+    - `Private EC2`에 접근했던 방식과 똑같이 `Bastion Host`방식을 사용해서 접근한다.
+      - 👉 해당 서브넷 또한 인터넷 GateWay와 연결이 되지 않은 Subnet이기 때문
+    - 접근이 완료되면, `yum`을 사용해서 Database를 받으려 했지만 받을 수 없다. (위와 같은 이유)
+    - `NAT 게이트웨이`를 생성하여 다른 EC2를 통해 외부망의 데이터를 받아 올 수 있다.
+      - `VPC -> NAT 게이트웨이 -> NAT 게이트웨이 생성`
+      - 해당 `NAT 게이트웨이`의 서브넷은 `Public Subnet`으로 지정해줘야한다.
+        - 외부망에 접근을 해야하기에 당연하다
