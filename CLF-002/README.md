@@ -17,7 +17,7 @@ AWS 클라우드의 가치 설명
 
 ## 자주 나오는 개념
 
-### AWS Well-Architected Framework
+### AWS Well-Architected Framework(프레임워크)
 
 - 운영 우수성 : `운영 및 모니터링` 프로세스르 `점검하며 개선`을 통해 지속적인 통합, 제공을 지향 함
   - 코드 기반의 운영
@@ -42,6 +42,13 @@ AWS 클라우드의 가치 설명
 - 지속 가능성 : `환경 영향, 에너지 소비 효율성`에 중점을 두고 점검
   - 관리형 서비스 사용
   - 지속 가능성 목표 수립
+
+### AWS WAF
+
+- 용성에 영향을 미치거나 보안을 훼손하거나 과도한 리소스를 소비할 수 있는 일반적인 웹 익스플로잇 및 봇으로부터 애플리케이션을 보호하도록 도와줍니다.
+- ✅ `Well-Architected Framework`와 다르다!!!!
+- ⭐️ SQL 주입 공격을 차단에 사용되는 AWS 기능
+  - AWS WAF
 
 ### AWS Cloud Adoption Framework(AWS CAF)
 
