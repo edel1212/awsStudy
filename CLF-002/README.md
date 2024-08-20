@@ -44,6 +44,9 @@ AWS 클라우드의 가치 설명
   - 지속 가능성 목표 수립
 - ⭐️ AWS Well-Architected Framework의 권장되는 설계 원칙은 무엇입니까?
   - 운영 실패로부터 개선하는 법을 배우세요( Learn to improve from operational failures. )
+- ⭐️ AWS Well-Architected Framework의 운영 우수성 기둥에 포함되는 설계 원칙은 무엇입니까?
+    - 실패를 예상하세요.
+
 
 ### AWS WAF
 
