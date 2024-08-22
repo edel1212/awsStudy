@@ -204,4 +204,5 @@ AWS 클라우드의 가치 설명
 ### AWS Shield(AWS 실드)
 -  DDoS 감지
 
-### 
+### Access keys
+- AWS `자원(Resource)`에 접근하거나, `API를 호출`할 때 사용됩니다.
