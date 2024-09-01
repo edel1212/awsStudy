@@ -303,3 +303,20 @@ AWS 클라우드의 가치 설명
 
 - 메시지 손실이나 다른 서비스 사용 없이 소프트웨어 구성 요소 간에 메시지를 전송, 저장, 수신할 수 있습니다. (`Message Queue`)
 - 메시지를 대기열로 전송합니다. 사용자 또는 서비스는 대기열에서 메시지를 검색하여 처리한 후 대기열에서 삭제합니다.
+  - `MOM (Message Oriented Middleware)`로 생각하면 쉽다
+
+### Elastic Container Service(Amazon ECS)
+
+- 컨테이너식 애플리케이션을 실행하고 확장할 수 있는 확장성이 뛰어난 고성능 컨테이너 관리 시스템입니다.
+- Docker 컨테이너를 지원합니다.
+- Amazon ECS에서는 API 호출을 사용하여 Docker 지원 애플리케이션을 시작 및 중지할 수 있습니다.
+
+### Elastic Kubernetes Service(Amazon EKS)
+
+- AWS에서 `Kubernetes`를 실행하는 데 사용할 수 있는 완전관리형 서비스입니다.
+
+### AWS Fargate
+
+- 컨테이너용 서버리스 컴퓨팅 엔진입니다.
+- Amazon ECS와 Amazon EKS에서 작동합니다.
+- 서버를 프로비저닝하거나 관리할 필요가 없습니다. AWS Fargate는 자동으로 서버 인프라를 관리합니다.
