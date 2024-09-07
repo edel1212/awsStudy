@@ -1,7 +1,6 @@
 # 틀린 문제
 
 ```properties
-<<<<<<< HEAD
 Which AWS services or tools can identify rightsizing opportunities for Amazon EC2 instances? (Choose two.)
 
 A. AWS Cost Explorer
@@ -47,7 +46,9 @@ B. A minimal additional fee for use
 C. One bill for multiple accounts
 D. Installment payment options
 E. Custom cost and usage budget creation
-=======
+
+#############################################################################################################
+
 고성능 데이터베이스에 적합한 Amazon EC2 인스턴스 유형은 무엇입니까?
 
 1. 메모리 최적화
@@ -64,5 +65,4 @@ E. Custom cost and usage budget creation
 3. 컴퓨팅 최적화
 4. 스토리지 최적화
 
->>>>>>> aebcee9dd350e48d3c3fcf9da7b98005b376f4dd
 ```
