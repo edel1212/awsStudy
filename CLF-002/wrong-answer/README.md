@@ -65,4 +65,35 @@ B. Service Quotas
 C. AWS Service Catalog
 D. AWS Budgets
 
+#############################################################################################################
+
+A company has an AWS account. The company wants to audit its password and access key rotation details for compliance purposes.
+Which AWS service or tool will meet this requirement?
+
+A. IAM Access Analyzer
+B. AWS Artifact
+C. IAM credential report
+D. AWS Audit Manager
+
+#############################################################################################################
+
+A company wants to receive a notification when a specific AWS cost threshold is reached.
+Which AWS services or tools can the company use to meet this requirement? (Choose two.)
+
+A. Amazon Simple Queue Service (Amazon SQS)
+B. AWS Budgets
+C. Cost Explorer
+D. Amazon CloudWatch
+E. AWS Cost and Usage Report
+
+#############################################################################################################
+
+Which of the following are pillars of the AWS Well-Architected Framework? (Choose two.)
+
+A. Availability
+B. Reliability
+C. Scalability
+D. Responsive design
+E. Operational excellence
+
 ```
