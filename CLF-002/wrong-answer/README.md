@@ -192,6 +192,13 @@ AWS Cloud Adoption Framework에서 비즈니스 목표 및 관점에 따라 AWS 
 4. 탄력성
 5. 내결함성 ⭐️
 
+#############################################################################################################
 
+What is the scope of a VPC within the AWS network?
+
+A. A VPC can span all Availability Zones globally.
+B. A VPC must span at least two subnets in each AWS Region.
+C. A VPC must span at least two edge locations in each AWS Region.
+D. A VPC can span all Availability Zones within an AWS Region. ⭐️
 
 ```
