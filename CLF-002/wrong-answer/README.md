@@ -96,4 +96,23 @@ C. Scalability
 D. Responsive design
 E. Operational excellence
 
+#############################################################################################################
+
+A user wants to review all Amazon S3 buckets with ACLs and S3 bucket policies in the S3 console.
+Which AWS service or resource will meet this requirement?
+
+A. S3 Multi-Region Access Points
+B. S3 Storage Lens
+C. AWS IAM Identity Center (AWS Single Sign-On)
+D. Access Analyzer for S3
+
+#############################################################################################################
+
+A company plans to migrate to AWS and wants to create cost estimates for its AWS use cases.
+Which AWS service or tool can the company use to meet these requirements?
+
+A. AWS Pricing Calculator
+B. Amazon CloudWatch
+C. AWS Cost Explorer
+D. AWS Budgets
 ```
