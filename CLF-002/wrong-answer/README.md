@@ -48,4 +48,21 @@
 3. AWS Direct Connect
 4. AWS Site-to-Site VPN
 
+#############################################################################################################
+
+Which AWS service or feature can a company use to determine which business unit is using specific AWS resources?
+
+A. Cost allocation tags
+B. Key pairs
+C. Amazon Inspector
+D. AWS Trusted Advisor
+
+#############################################################################################################
+Which AWS service or tool should a company use to centrally request and track service limit increases?
+
+A. AWS Config
+B. Service Quotas
+C. AWS Service Catalog
+D. AWS Budgets
+
 ```
