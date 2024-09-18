@@ -486,4 +486,13 @@ B. AWS Systems Manager Session Manager ⭐️
 C. AWS Identity and Access Management (IAM)
 D. Network ACLs
 
+#############################################################################################################
+
+A company would like to host its MySQL databases on AWS and maintain full control over the operating system, database installation, and configuration.
+Which AWS service should the company use to host the databases?
+A. Amazon RDS
+B. Amazon EC2 ⭐️
+C. Amazon DynamoDB
+D. Amazon Aurora
+
 ```
