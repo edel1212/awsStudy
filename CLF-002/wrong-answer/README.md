@@ -490,9 +490,92 @@ D. Network ACLs
 
 A company would like to host its MySQL databases on AWS and maintain full control over the operating system, database installation, and configuration.
 Which AWS service should the company use to host the databases?
+
 A. Amazon RDS
 B. Amazon EC2 ⭐️
 C. Amazon DynamoDB
 D. Amazon Aurora
 
+#############################################################################################################
+
+A company has a social media platform in which users upload and share photos with other users. The company wants to identify and remove inappropriate photos. The company has no machine learning (ML) scientists and must build this detection capability with no ML expertise.
+Which AWS service should the company use to build this capability?
+
+A. Amazon SageMaker
+B. Amazon Textract
+C. Amazon Rekognition ⭐️
+D. Amazon Comprehend
+#############################################################################################################
+
+Which cloud computing benefit does AWS demonstrate with its ability to offer lower variable costs as a result of high purchase volumes?
+
+A. Pay-as-you-go pricing
+B. High availability
+C. Global reach
+D. Economies of scale ⭐️
+
+#############################################################################################################
+
+Which AWS service provides threat detection by monitoring for malicious activities and unauthorized actions to protect AWS accounts, workloads, and data that is stored in Amazon S3?
+
+A. AWS Shield
+B. AWS Firewall Manager
+C. Amazon GuardDuty ⭐️
+D. Amazon Inspector
+
+#############################################################################################################
+
+Which controls does the customer fully inherit from AWS in the AWS shared responsibility model?
+
+A. Patch management controls
+B. Awareness and training controls
+C. Physical and environmental controls ⭐️
+D. Configuration management controls
+
+#############################################################################################################
+
+Which AWS service, feature, or tool uses machine learning to continuously monitor cost and usage for unusual cloud spending?
+
+A. Amazon Lookout for Metrics
+B. AWS Budgets
+C. Amazon CloudWatch
+D. AWS Cost Anomaly Detection ⭐️
+
+#############################################################################################################
+
+Which of the following is a managed AWS service that is used specifically for extract, transform, and load (ETL) data?
+
+A. Amazon Athena
+B. AWS Glue ⭐️
+C. Amazon S3
+D. AWS Snowball Edge
+
+#############################################################################################################
+
+Which of the following are shared controls that apply to both AWS and the customer, according to the AWS shared responsibility model? (Choose two.)
+
+A. Resource configuration management ⭐️
+B. Network data integrity
+C. Employee awareness and training ⭐️
+D. Physical and environmental security
+E. Replacement and disposal of disk drives
+
+#############################################################################################################
+
+What information is found on an AWS Identity and Access Management (IAM) credential report? (Choose two.)
+
+A. The date and time when an IAM user's password was last used to sign in to the AWS Management Console. ⭐️
+B. The type of multi-factor authentication (MFA) device assigned to an IAM user.
+C. The User-Agent browser identifier for each IAM user currently logged in.
+D. Whether multi-factor authentication (MFA) has been enabled for an IAM user. ⭐️
+E. The number of incorrect login attempts by each IAM user in the previous 30 days.
+
+#############################################################################################################
+
+What is the LEAST expensive AWS Support plan that contains a full set of AWS Trusted Advisor best practice checks?
+
+A. AWS Enterprise Support
+B. AWS Business Support ⭐️
+C. AWS Developer Support
+D. AWS Basic Support
 ```
