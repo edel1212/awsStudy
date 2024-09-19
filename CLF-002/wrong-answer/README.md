@@ -578,4 +578,56 @@ A. AWS Enterprise Support
 B. AWS Business Support ⭐️
 C. AWS Developer Support
 D. AWS Basic Support
+
+#############################################################################################################
+
+An ecommerce company wants to use Amazon EC2 Auto Scaling to add and remove EC2 instances based on CPU utilization.
+Which AWS service or feature can initiate an Amazon EC2 Auto Scaling action to achieve this goal?
+
+A. Amazon Simple Queue Service (Amazon SQS)
+B. Amazon Simple Notification Service (Amazon SNS)
+C. AWS Systems Manager
+D. Amazon CloudWatch alarm ⭐️
+
+#############################################################################################################
+
+A company owns per-core software licenses.
+Which Amazon EC2 instance purchasing option must the company use for this license type?
+
+A. Reserved Instances
+B. Dedicated Hosts ⭐️
+C. Spot Instances
+D. Dedicated Instances
+
+#############################################################################################################
+
+A company's IT team is managing MySQL database server clusters. The IT team has to patch the database and take backup snapshots of the data in the clusters.
+The company wants to move this workload to AWS so that these tasks will be completed automatically.
+What should the company do to meet these requirements?
+
+A. Deploy MySQL database server clusters on Amazon EC2 instances.
+B. Use Amazon RDS with a MySQL database. ⭐️
+C. Use an AWS CloudFormation template to deploy MySQL database servers on Amazon EC2 instances.
+D. Migrate all the MySQL database data to Amazon S3.
+
+#############################################################################################################
+
+A company wants its employees to have access to virtual desktop infrastructure to securely access company-provided desktops through the employees' personal devices.
+Which AWS service should the company use to meet these requirements?
+
+A. Amazon AppStream 2.0
+B. AWS AppSync
+C. Amazon FSx for Windows File Server
+D. Amazon WorkSpaces ⭐️
+
+#############################################################################################################
+
+A user has been granted permission to change their own IAM user password.
+Which AWS services can the user use to change the password? (Choose two.)
+
+A. AWS Command Line Interface (AWS CLI) ⭐️
+B. AWS Key Management Service (AWS KMS)
+C. AWS Management Console ⭐️
+D. AWS Resource Access Manager (AWS RAM)
+E. AWS Secrets Manager
 ```
