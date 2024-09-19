@@ -1,198 +1,173 @@
-A company has a physical tape library to store data backups. The tape library is running out of space. The company needs to extend the tape library's capacity to the AWS Cloud.
-Which AWS service should the company use to meet this requirement?
+회사는 물리적 테이프 라이브러리를 사용하여 데이터 백업을 저장합니다. 테이프 라이브러리의 용량이 부족해지고 있습니다. 회사는 테이프 라이브러리의 용량을 AWS 클라우드로 확장해야 합니다. 이 요구를 충족할 AWS 서비스는 무엇입니까?
 
 A. Amazon Elastic Block Store (Amazon EBS)
 B. Amazon S3
 C. Amazon Elastic File System (Amazon EFS)
-D. AWS Storage Gateway ⭐️
+D. AWS Storage Gateway   ⭐️
 
 #############################################################################################################
 
-A company wants to ensure that two Amazon EC2 instances are in separate data centers with minimal communication latency between the data centers.
-How can the company meet this requirement?
+회사는 두 개의 Amazon EC2 인스턴스를 별도의 데이터 센터에 배치하고 데이터 센터 간의 통신 지연을 최소화하고자 합니다. 회사가 이 요구를 충족하려면 어떻게 해야 합니까?
 
-A. Place the EC2 instances in two separate AWS Regions connected with a VPC peering connection.
-B. Place the EC2 instances in two separate Availability Zones within the same AWS Region. ⭐️
-C. Place one EC2 instance on premises and the other in an AWS Region. Then connect them by using an AWS VPN connection.
-D. Place both EC2 instances in a placement group for dedicated bandwidth.
+A. VPC 피어링 연결을 통해 두 개의 별도 AWS 리전에 EC2 인스턴스를 배치합니다.
+B. 동일한 AWS 리전 내의 두 개의 별도 가용 영역에 EC2 인스턴스를 배치합니다. ⭐️
+C. 하나의 EC2 인스턴스를 온프레미스에 배치하고 다른 인스턴스를 AWS 리전에 배치한 후 AWS VPN 연결을 사용하여 연결합니다.
+D. EC2 인스턴스를 전용 대역폭을 위한 배치 그룹에 배치합니다.
 
 #############################################################################################################
 
-A company is operating several factories where it builds products. The company needs the ability to process data, store data, and run applications with local system interdependencies that require low latency.
-Which AWS service should the company use to meet these requirements?
+회사는 여러 공장에서 제품을 생산하고 있습니다. 회사는 데이터를 처리하고 저장하며 지연이 적은 로컬 시스템 상호 의존성이 필요한 애플리케이션을 실행할 수 있어야 합니다. 이 요구를 충족할 AWS 서비스는 무엇입니까?
 
 A. AWS IoT Greengrass
 B. AWS Lambda
-C. AWS Outposts ⭐️
+C. AWS Outposts   ⭐️
 D. AWS Snowball Edge
 
 #############################################################################################################
 
-A company is designing its AWS workloads so that components can be updated regularly and so that changes can be made in small, reversible increments.
-Which pillar of the AWS Well-Architected Framework does this design support?
+회사는 AWS 워크로드를 설계하여 구성 요소를 정기적으로 업데이트하고 변경 사항을 작고 되돌릴 수 있는 단위로 만들고자 합니다. 이 설계가 지원하는 AWS Well-Architected Framework의 기둥은 무엇입니까?
 
-A. Security
-B. Performance efficiency
-C. Operational excellence ⭐️
-D. Reliability
-
-#############################################################################################################
-
-Using AWS Config to record, audit, and evaluate changes to AWS resources to enable traceability is an example of which AWS Well-Architected Framework pillar?
-
-A. Security ⭐️
-B. Operational excellence
-C. Performance efficiency
-D. Cost optimization
+A. 보안
+B. 성능 효율성
+C. 운영 우수성  ⭐️
+D. 신뢰성
 
 #############################################################################################################
 
-A pharmaceutical company operates its infrastructure in a single AWS Region. The company has thousands of VPCs in a various AWS accounts that it wants to interconnect.
-Which AWS service or feature should the company use to help simplify management and reduce operational costs?
+AWS Config를 사용하여 AWS 리소스 변경 사항을 기록하고 감사 및 평가하여 추적 가능성을 제공하는 것은 AWS Well-Architected Framework의 어떤 기둥의 예입니까?
 
-A. VPC endpoint
+A. 보안  ⭐️
+B. 운영 우수성
+C. 성능 효율성
+D. 비용 최적화
+
+#############################################################################################################
+
+제약 회사가 하나의 AWS 리전에서 인프라를 운영하고 있습니다. 이 회사는 다양한 AWS 계정에 수천 개의 VPC가 있으며, 이를 상호 연결하고자 합니다. 관리 간소화와 운영 비용 절감을 위해 회사가 사용해야 하는 AWS 서비스 또는 기능은 무엇입니까?
+
+A. VPC 엔드포인트
 B. AWS Direct Connect
-C. AWS Transit Gateway ⭐️
-D. VPC peering
+C. AWS Transit Gateway  ⭐️
+D. VPC 피어링
 
 #############################################################################################################
 
-Which AWS service of tool helps to centrally manage billing and allow controlled access to resources across AWS accounts?
+어떤 AWS 서비스 또는 도구가 **여러** AWS 계정에 걸쳐 리소스에 대한 제어된 접근을 허용하고 청구를 중앙에서 관리하도록 도와줍니까?
 
 A. AWS Identity and Access Management (IAM)
-B. AWS Organizations ⭐️
+B. AWS Organizations  ⭐️
 C. Cost Explorer
 D. AWS Budgets
 
 #############################################################################################################
 
-A company launched an Amazon EC2 instance with the latest Amazon Linux 2 Amazon Machine Image (AMI).
-Which actions can a system administrator take to connect to the EC2 instance? (Choose two.)
+회사는 최신 Amazon Linux 2 Amazon Machine Image (AMI)를 사용하여 Amazon EC2 인스턴스를 시작했습니다. 시스템 관리자가 EC2 인스턴스에 연결하기 위해 어떤 조치를 취할 수 있습니까? (두 가지 선택.)
 
-A. Use Amazon EC2 Instance Connect. ⭐️
-B. Use a Remote Desktop Protocol (RDP) connection.
-C. Use AWS Batch
-D. Use AWS Systems Manager Session Manager. ⭐️
-E. Use Amazon Connect
+A. Amazon EC2 Instance Connect 사용하기. ⭐️
+B. 원격 데스크탑 프로토콜 (RDP) 연결 사용하기.
+C. AWS Batch 사용하기.
+D. AWS Systems Manager Session Manager 사용하기. ⭐️
+E. Amazon Connect 사용하기.
 
 #############################################################################################################
 
-A company wants to perform sentiment analysis on customer service email messages that it receives. The company wants to identify whether the customer service engagement was positive or negative.
-Which AWS service should the company use to perform this analysis?
+회사는 고객 서비스 이메일 메시지에 대한 감정 분석을 수행하려고 합니다. 회사는 고객 서비스 상호작용이 긍정적이었는지 부정적이었는지 식별하고자 합니다. 이 분석을 수행하기 위해 어떤 AWS 서비스를 사용해야 합니까?
 
 A. Amazon Textract
 B. Amazon Translate
-C. Amazon Comprehend ⭐️
+C. Amazon Comprehend  ⭐️
 D. Amazon Rekognition
 
 #############################################################################################################
 
-A large organization has a single AWS account.
-What are the advantages of reconfiguring the single account into multiple AWS accounts? (Choose two.)
+대규모 조직이 단일 AWS 계정을 가지고 있습니다. 이 단일 계정을 여러 AWS 계정으로 재구성할 때의 장점은 무엇입니까? (두 가지 선택.)
+ 
+A. 서로 다른 워크로드 간의 관리적 분리를 허용합니다.  ⭐️
+B. AWS Management Console에서 케이스를 제출하여 분기별로 할인을 적용할 수 있습니다.
+C. Amazon S3에서 Amazon S3 Glacier로 객체를 전환하는 것이 별도의 AWS 계정에서 더 저렴합니다.
+D. 여러 계정을 사용하는 것이 단일 계정을 목표로 하는 악의적 활동과 관련된 위험을 줄입니다.  ⭐️
+E. Amazon QuickSight는 여러 계정에서 실행되는 환경에 대한 응용 프로그램별 권장 사항을 제공하는 비용 도구에 대한 액세스를 제공합니다.
 
-A. It allows for administrative isolation between different workloads. ⭐️
-B. Discounts can be applied on a quarterly basis by submitting cases in the AWS Management Console.
-C. Transitioning objects from Amazon S3 to Amazon S3 Glacier in separate AWS accounts will be less expensive.
-D. Having multiple accounts reduces the risks associated with malicious activity targeted at a single account. ⭐️
-E. Amazon QuickSight offers access to a cost tool that provides application-specific recommendations for environments running in multiple accounts.
 
 #############################################################################################################
 
-Which AWS services offer gateway VPC endpoints that can be used to avoid sending traffic over the internet? (Choose two.)
+어떤 AWS 서비스가 인터넷을 통해 트래픽을 전송하지 않도록 하기 위해 게이트웨이 VPC 엔드포인트를 제공합니까? (두 가지 선택.)
 
 A. Amazon Simple Notification Service (Amazon SNS)
 B. Amazon Simple Queue Service (Amazon SQS)
 C. AWS CodeBuild
-D. Amazon S3 ⭐️
-E. Amazon DynamoDB ⭐️
+D. Amazon S3  ⭐️
+E. Amazon DynamoDB  ⭐️
+
 
 #############################################################################################################
 
-What does the AWS Concierge Support team provide?
+WS Concierge Support 팀이 제공하는 것은 무엇입니까?
 
-A. A technical expert dedicated to the user
-B. A primary point of contact for AWS Billing and AWS Support ⭐️
-C. A partner to help provide scaling guidance for an event launch
-D. A dedicated AWS staff member who reviews the user's application architecture
-
-#############################################################################################################
-
-A company needs to design an AWS disaster recovery plan to cover multiple geographic areas.
-Which action will meet this requirement?
-
-A. Configure multiple AWS accounts.
-B. Configure the architecture across multiple Availability Zones in an AWS Region.
-C. Configure the architecture across multiple AWS Regions. ⭐️
-D. Configure the architecture among many edge locations.
+A. 사용자 전담 기술 전문가
+B. AWS Billing 및 AWS Support에 대한 주요 연락처 ⭐️
+C. 이벤트 출시에 대한 스케일링 가이던스를 제공하는 파트너
+D. 사용자의 애플리케이션 아키텍처를 검토하는 전담 AWS 직원
 
 #############################################################################################################
 
-Which AWS service monitors AWS accounts for security threats?
+회사가 여러 지리적 지역을 커버하는 AWS 재해 복구 계획을 설계해야 합니다. 이 요구 사항을 충족하기 위해 어떤 조치를 취해야 합니까?
 
-A. Amazon GuardDuty ⭐️
+A. 여러 AWS 계정을 구성합니다.
+B. AWS 리전 내의 여러 가용 영역에 아키텍처를 구성합니다.
+C. 여러 AWS 리전에 걸쳐 아키텍처를 구성합니다. ⭐️
+D. 많은 엣지 위치 사이에 아키텍처를 구성합니다.
+
+#############################################################################################################
+
+어떤 AWS 서비스가 AWS 계정의 보안 위협을 모니터링합니까?
+
+A. Amazon GuardDuty   ⭐️
 B. AWS Secrets Manager
 C. Amazon Cognito
 D. AWS Certificate Manager (ACM)
 
 #############################################################################################################
 
-A company wants to improve its security and audit posture by limiting Amazon EC2 inbound access.
-What should the company use to access instances remotely instead of opening inbound SSH ports and managing SSH keys?
+회사는 Amazon EC2 인바운드 액세스를 제한하여 보안 및 감사 태세를 개선하고 싶어합니다. 인바운드 SSH 포트를 열고 SSH 키를 관리하는 대신 인스턴스에 원격으로 액세스하기 위해 회사는 무엇을 사용해야 합니까?
 
-A. EC2 key pairs
-B. AWS Systems Manager Session Manager ⭐️
+A. EC2 키 쌍
+B. AWS Systems Manager Session Manager  ⭐️
 C. AWS Identity and Access Management (IAM)
-D. Network ACLs
+D. 네트워크 ACLs
 
 #############################################################################################################
 
-A company would like to host its MySQL databases on AWS and maintain full control over the operating system, database installation, and configuration.
-Which AWS service should the company use to host the databases?
+회사는 MySQL 데이터베이스를 AWS에서 호스팅하고 운영 체제, 데이터베이스 설치 및 구성에 대한 전체 제어를 유지하고 싶어합니다. 회사는 데이터베이스를 호스팅하기 위해 어떤 AWS 서비스를 사용해야 합니까?
 
 A. Amazon RDS
-B. Amazon EC2 ⭐️
+B. Amazon EC2  ⭐️
 C. Amazon DynamoDB
 D. Amazon Aurora
 
 #############################################################################################################
 
-A company has a social media platform in which users upload and share photos with other users. The company wants to identify and remove inappropriate photos. The company has no machine learning (ML) scientists and must build this detection capability with no ML expertise.
-Which AWS service should the company use to build this capability?
+회사는 사용자가 사진을 업로드하고 다른 사용자와 공유할 수 있는 소셜 미디어 플랫폼을 운영하고 있습니다. 회사는 부적절한 사진을 식별하고 제거하고 싶어합니다. 회사에는 기계 학습(ML) 전문가가 없으며 ML 전문 지식 없이 이 감지 기능을 구축해야 합니다. 회사는 이 기능을 구축하기 위해 어떤 AWS 서비스를 사용해야 합니까?
 
 A. Amazon SageMaker
 B. Amazon Textract
-C. Amazon Rekognition ⭐️
+C. Amazon Rekognition  ⭐️
 D. Amazon Comprehend
-#############################################################################################################
 
-Which cloud computing benefit does AWS demonstrate with its ability to offer lower variable costs as a result of high purchase volumes?
-
-A. Pay-as-you-go pricing
-B. High availability
-C. Global reach
-D. Economies of scale ⭐️
 
 #############################################################################################################
 
-Which AWS service provides threat detection by monitoring for malicious activities and unauthorized actions to protect AWS accounts, workloads, and data that is stored in Amazon S3?
+어떤 AWS 서비스가 악의적인 활동 및 무단 작업을 모니터링하여 AWS 계정, 워크로드 및 Amazon S3에 저장된 데이터를 보호하는 위협 감지를 제공합니까?
 
 A. AWS Shield
 B. AWS Firewall Manager
-C. Amazon GuardDuty ⭐️
+C. Amazon GuardDuty  ⭐️
 D. Amazon Inspector
 
-#############################################################################################################
-
-Which controls does the customer fully inherit from AWS in the AWS shared responsibility model?
-
-A. Patch management controls
-B. Awareness and training controls
-C. Physical and environmental controls ⭐️
-D. Configuration management controls
 
 #############################################################################################################
 
-Which AWS service, feature, or tool uses machine learning to continuously monitor cost and usage for unusual cloud spending?
+어떤 AWS 서비스, 기능 또는 도구가 기계 학습을 사용하여 비정상적인 클라우드 지출을 지속적으로 모니터링합니까?
 
 A. Amazon Lookout for Metrics
 B. AWS Budgets
@@ -201,36 +176,37 @@ D. AWS Cost Anomaly Detection ⭐️
 
 #############################################################################################################
 
-Which of the following is a managed AWS service that is used specifically for extract, transform, and load (ETL) data?
+다음 중 ETL(추출, 변환, 적재) 데이터를 위해 특별히 사용되는 관리형 AWS 서비스는 무엇입니까?
 
 A. Amazon Athena
-B. AWS Glue ⭐️
+B. AWS Glue  ⭐️
 C. Amazon S3
 D. AWS Snowball Edge
 
-#############################################################################################################
-
-Which of the following are shared controls that apply to both AWS and the customer, according to the AWS shared responsibility model? (Choose two.)
-
-A. Resource configuration management ⭐️
-B. Network data integrity
-C. Employee awareness and training ⭐️
-D. Physical and environmental security
-E. Replacement and disposal of disk drives
 
 #############################################################################################################
 
-What information is found on an AWS Identity and Access Management (IAM) credential report? (Choose two.)
+다음 중 AWS 공유 책임 모델에 따라 AWS와 고객 모두에게 적용되는 공유 제어는 무엇입니까? (두 가지 선택.)
 
-A. The date and time when an IAM user's password was last used to sign in to the AWS Management Console. ⭐️
-B. The type of multi-factor authentication (MFA) device assigned to an IAM user.
-C. The User-Agent browser identifier for each IAM user currently logged in.
-D. Whether multi-factor authentication (MFA) has been enabled for an IAM user. ⭐️
-E. The number of incorrect login attempts by each IAM user in the previous 30 days.
+A. 자원 구성 관리  ⭐️
+B. 네트워크 데이터 무결성
+C. 직원 인식 및 교육  ⭐️
+D. 물리적 및 환경적 보안
+E. 디스크 드라이브 교체 및 폐기
 
 #############################################################################################################
 
-What is the LEAST expensive AWS Support plan that contains a full set of AWS Trusted Advisor best practice checks?
+AWS Identity and Access Management (IAM) 자격 증명 보고서에서 어떤 정보를 찾을 수 있습니까? (두 가지 선택.)
+
+A. IAM 사용자의 비밀번호가 마지막으로 AWS Management Console에 로그인할 때의 날짜와 시간.  ⭐️
+B. IAM 사용자에게 할당된 다중 요소 인증 (MFA) 장치의 유형. 
+C. 현재 로그인 중인 각 IAM 사용자의 User-Agent 브라우저 식별자.
+D. IAM 사용자에게 다중 요소 인증 (MFA)이 활성화되었는지 여부.  ⭐️
+E. 지난 30일 동안 각 IAM 사용자의 잘못된 로그인 시도 횟수.
+
+#############################################################################################################
+
+ AWS Trusted Advisor의 모범 사례 점검 세트를 모두 포함하는 가장 저렴한 AWS Support 플랜은 무엇입니까?
 
 A. AWS Enterprise Support
 B. AWS Business Support ⭐️
@@ -239,52 +215,47 @@ D. AWS Basic Support
 
 #############################################################################################################
 
-An ecommerce company wants to use Amazon EC2 Auto Scaling to add and remove EC2 instances based on CPU utilization.
-Which AWS service or feature can initiate an Amazon EC2 Auto Scaling action to achieve this goal?
+전자 상거래 회사는 CPU 사용률을 기준으로 EC2 인스턴스를 추가 및 제거하기 위해 Amazon EC2 Auto Scaling을 사용하고자 합니다. 이 목표를 달성하기 위해 Amazon EC2 Auto Scaling 작업을 시작할 수 있는 AWS 서비스 또는 기능은 무엇입니까?
 
 A. Amazon Simple Queue Service (Amazon SQS)
 B. Amazon Simple Notification Service (Amazon SNS)
 C. AWS Systems Manager
-D. Amazon CloudWatch alarm ⭐️
+D. Amazon CloudWatch 알람  ⭐️
 
 #############################################################################################################
 
-A company owns per-core software licenses.
-Which Amazon EC2 instance purchasing option must the company use for this license type?
+회사는 코어별 소프트웨어 라이센스를 소유하고 있습니다. 이 라이센스 유형에 대해 회사가 사용해야 하는 Amazon EC2 인스턴스 구매 옵션은 무엇입니까?
 
-A. Reserved Instances
-B. Dedicated Hosts ⭐️
-C. Spot Instances
-D. Dedicated Instances
-
-#############################################################################################################
-
-A company's IT team is managing MySQL database server clusters. The IT team has to patch the database and take backup snapshots of the data in the clusters.
-The company wants to move this workload to AWS so that these tasks will be completed automatically.
-What should the company do to meet these requirements?
-
-A. Deploy MySQL database server clusters on Amazon EC2 instances.
-B. Use Amazon RDS with a MySQL database. ⭐️
-C. Use an AWS CloudFormation template to deploy MySQL database servers on Amazon EC2 instances.
-D. Migrate all the MySQL database data to Amazon S3.
+A. 예약 인스턴스
+B. 전용 호스트  ⭐️
+C. 스팟 인스턴스
+D. 전용 인스턴스
 
 #############################################################################################################
 
-A company wants its employees to have access to virtual desktop infrastructure to securely access company-provided desktops through the employees' personal devices.
-Which AWS service should the company use to meet these requirements?
+회사의 IT 팀은 MySQL 데이터베이스 서버 클러스터를 관리하고 있습니다. IT 팀은 데이터베이스를 패치하고 클러스터의 데이터를 백업 스냅샷으로 찍어야 합니다. 회사는 이러한 작업이 자동으로 완료되도록 AWS로 이 워크로드를 이동하고 싶어합니다. 회사는 이 요구 사항을 충족하기 위해 무엇을 해야 합니까?
+
+A. MySQL 데이터베이스 서버 클러스터를 Amazon EC2 인스턴스에서 배포합니다.
+B. MySQL 데이터베이스와 함께 Amazon RDS를 사용합니다. ⭐️
+C. AWS CloudFormation 템플릿을 사용하여 MySQL 데이터베이스 서버를 Amazon EC2 인스턴스에서 배포합니다.
+D. 모든 MySQL 데이터베이스 데이터를 Amazon S3로 마이그레이션합니다.
+
+#############################################################################################################
+
+회사는 직원들이 개인 장치를 통해 회사에서 제공하는 데스크탑에 안전하게 액세스할 수 있도록 가상 데스크탑 인프라에 접근할 수 있기를 원합니다. 회사는 이 요구 사항을 충족하기 위해 어떤 AWS 서비스를 사용해야 합니까?
 
 A. Amazon AppStream 2.0
 B. AWS AppSync
 C. Amazon FSx for Windows File Server
-D. Amazon WorkSpaces ⭐️
+D. Amazon WorkSpaces  ⭐️
 
 #############################################################################################################
 
-A user has been granted permission to change their own IAM user password.
-Which AWS services can the user use to change the password? (Choose two.)
+사용자는 자신의 IAM 사용자 비밀번호를 변경할 수 있는 권한이 부여되었습니다. 사용자는 비밀번호를 변경하기 위해 어떤 AWS 서비스를 사용할 수 있습니까? (두 가지 선택.)
 
 A. AWS Command Line Interface (AWS CLI) ⭐️
 B. AWS Key Management Service (AWS KMS)
 C. AWS Management Console ⭐️
 D. AWS Resource Access Manager (AWS RAM)
 E. AWS Secrets Manager
+

@@ -47,15 +47,16 @@
 
 #############################################################################################################
 
-Which AWS service or feature can a company use to determine which business unit is using specific AWS resources?
+회사가 특정 AWS 리소스를 사용 중인 비즈니스 단위를 확인하는 데 사용할 수 있는 AWS 서비스 또는 기능은 무엇입니까?
 
-A. Cost allocation tags ⭐️
-B. Key pairs
+A. 비용 할당 태그  ⭐️
+B. 키 페어
 C. Amazon Inspector
 D. AWS Trusted Advisor
 
 #############################################################################################################
-Which AWS service or tool should a company use to centrally request and track service limit increases?
+
+회사가 중앙에서 서비스 한도 증가 요청을 제출하고 추적할 수 있는 AWS 서비스 또는 도구는 무엇입니까?
 
 A. AWS Config
 B. Service Quotas ⭐️
@@ -64,53 +65,49 @@ D. AWS Budgets
 
 #############################################################################################################
 
-A company has an AWS account. The company wants to audit its password and access key rotation details for compliance purposes.
-Which AWS service or tool will meet this requirement?
+회사가 AWS 계정을 보유하고 있습니다. 회사는 규정 준수 목적을 위해 비밀번호 및 액세스 키 회전 세부 정보를 감사하고 싶습니다. 이 요구를 충족할 AWS 서비스 또는 도구는 무엇입니까?
 
 A. IAM Access Analyzer
 B. AWS Artifact
-C. IAM credential report ⭐️
+C. IAM 자격 증명 보고서 ⭐️
 D. AWS Audit Manager
 
 #############################################################################################################
 
-A company wants to receive a notification when a specific AWS cost threshold is reached.
-Which AWS services or tools can the company use to meet this requirement? (Choose two.)
+회사는 특정 AWS 비용 한도에 도달했을 때 알림을 받고 싶어 합니다. 회사가 이 요구를 충족하기 위해 사용할 수 있는 AWS 서비스 또는 도구는 무엇입니까? (두 개 선택)
 
 A. Amazon Simple Queue Service (Amazon SQS)
-B. AWS Budgets ⭐️
-C. Cost Explorer
+B. AWS Budgets  ⭐️
+C. 비용 탐색기
 D. Amazon CloudWatch ⭐️
-E. AWS Cost and Usage Report
+E. AWS 비용 및 사용 보고서
 
 #############################################################################################################
 
-Which of the following are pillars of the AWS Well-Architected Framework? (Choose two.)
+다음 중 AWS Well-Architected Framework의 기둥은 무엇입니까? (두 개 선택)
 
-A. Availability
-B. Reliability ⭐️
-C. Scalability
-D. Responsive design
-E. Operational excellence ⭐️
+A. 가용성
+B. 신뢰성 ⭐️
+C. 확장성
+D. 응답형 설계
+E. 운영 우수성 ⭐️
 
 #############################################################################################################
 
-A user wants to review all Amazon S3 buckets with ACLs and S3 bucket policies in the S3 console.
-Which AWS service or resource will meet this requirement?
+사용자가 S3 콘솔에서 ACL 및 S3 버킷 정책이 있는 모든 Amazon S3 버킷을 검토하고 싶어 합니다. 이 요구를 충족할 AWS 서비스 또는 리소스는 무엇입니까?
 
-A. S3 Multi-Region Access Points
+A. S3 다중 리전 액세스 포인트
 B. S3 Storage Lens
 C. AWS IAM Identity Center (AWS Single Sign-On)
-D. Access Analyzer for S3 ⭐️
+D. S3를 위한 Access Analyzer ⭐️
 
 #############################################################################################################
 
-A company plans to migrate to AWS and wants to create cost estimates for its AWS use cases.
-Which AWS service or tool can the company use to meet these requirements?
+회사는 AWS로 마이그레이션할 계획이며 AWS 사용 사례에 대한 비용 추정치를 생성하고 싶어 합니다. 이 요구를 충족할 수 있는 AWS 서비스 또는 도구는 무엇입니까?
 
-A. AWS Pricing Calculator ⭐️
+A. AWS 가격 계산기 ⭐️
 B. Amazon CloudWatch
-C. AWS Cost Explorer
+C. AWS 비용 탐색기
 D. AWS Budgets
 
 #############################################################################################################
@@ -191,56 +188,55 @@ AWS Cloud Adoption Framework에서 비즈니스 목표 및 관점에 따라 AWS 
 
 #############################################################################################################
 
-What is the scope of a VPC within the AWS network?
+VPC의 AWS 네트워크 내 범위는 무엇입니까?
 
-A. A VPC can span all Availability Zones globally.
-B. A VPC must span at least two subnets in each AWS Region.
-C. A VPC must span at least two edge locations in each AWS Region.
-D. A VPC can span all Availability Zones within an AWS Region. ⭐️
-
-#############################################################################################################
-
-What are some advantages of using Amazon EC2 instances to host applications in the AWS Cloud instead of on premises? (Choose two.)
-
-A. EC2 includes operating system patch management.
-B. EC2 integrates with Amazon VPC, AWS CloudTrail, and AWS Identity and Access Management (IAM). ⭐️
-C. EC2 has a 100% service level agreement (SLA).
-D. EC2 has a flexible, pay-as-you-go pricing model. ⭐️
-E. EC2 has automatic storage cost optimization.
+A. VPC는 전 세계 모든 가용 영역(Availability Zone)에 걸쳐 확장될 수 있습니다.
+B. VPC는 각 AWS 리전에서 최소 두 개의 서브넷에 걸쳐 있어야 합니다.
+C. VPC는 각 AWS 리전에서 최소 두 개의 엣지 로케이션(Edge Location)에 걸쳐 있어야 합니다.
+D. VPC는 AWS 리전 내 모든 가용 영역에 걸쳐 확장될 수 있습니다.  ⭐️
 
 #############################################################################################################
 
-How does the AWS Cloud pricing model differ from the traditional on-premises storage pricing model?
+Amazon EC2 인스턴스를 사용하여 AWS 클라우드에서 애플리케이션을 호스팅하는 것의 장점은 무엇입니까? (두 개 선택)
 
-A. AWS resources do not incur costs
-B. There are no infrastructure operating costs ⭐️
-C. There are no upfront cost commitments
-D. There are no software licensing costs
+A. EC2에는 운영 체제 패치 관리가 포함됩니다.
+B. EC2는 Amazon VPC, AWS CloudTrail, AWS Identity and Access Management (IAM)과 통합됩니다.  ⭐️
+C. EC2는 100%의 서비스 수준 계약(SLA)을 제공합니다.
+D. EC2는 유연한 종량제 요금 모델을 제공합니다.  ⭐️
+E. EC2는 자동 스토리지 비용 최적화를 제공합니다.
 
 #############################################################################################################
 
-Which of the following are included in AWS Enterprise Support? (Choose two.)
+AWS 클라우드 가격 모델이 기존의 온프레미스 스토리지 가격 모델과 다른 점은 무엇입니까?
 
-A. AWS technical account manager (TAM) ⭐️
-B. AWS partner-led support
+A. AWS 리소스는 비용이 발생하지 않습니다.
+B. 인프라 운영 비용이 없습니다.   ⭐️
+C. 사전 비용 약정이 없습니다.
+D. 소프트웨어 라이선스 비용이 없습니다.
+
+
+#############################################################################################################
+
+다음 중 AWS Enterprise Support에 포함된 것은 무엇입니까? (두 개 선택)
+
+A. AWS 기술 계정 관리자(TAM)  ⭐️
+B. AWS 파트너가 주도하는 지원
 C. AWS Professional Services
-D. Support of third-party software integration to AWS ⭐️
-E. 5-minute response time for critical issues
+D. AWS에 대한 서드파티 소프트웨어 통합 지원 ⭐️
+E. 중요한 문제에 대한 5분 응답 시간
 
 #############################################################################################################
 
-A company has a database server that is always running. The company hosts the server on Amazon EC2 instances. The instance sizes are suitable for the workload. The workload will run for 1 year.
-Which EC2 instance purchasing option will meet these requirements MOST cost-effectively?
+회사가 항상 실행 중인 데이터베이스 서버가 있습니다. 회사는 이 서버를 Amazon EC2 인스턴스에서 호스팅하고 있으며, 인스턴스 크기는 워크로드에 적합합니다. 이 워크로드는 1년 동안 실행됩니다. 이 요구사항을 가장 비용 효율적으로 충족할 EC2 인스턴스 구매 옵션은 무엇입니까?
 
-A. Standard Reserved Instances ⭐️
-B. On-Demand Instances
-C. Spot Instances
-D. Convertible Reserved Instances
+A. 표준 예약 인스턴스 ⭐️
+B. 온디맨드 인스턴스
+C. 스팟 인스턴스
+D. 전환 가능 예약 인스턴스
 
 #############################################################################################################
 
-A company wants to improve the overall availability and performance of its applications that are hosted on AWS.
-Which AWS service should the company use?
+회사는 AWS에서 호스팅하는 애플리케이션의 전반적인 가용성과 성능을 개선하고 싶습니다. 회사는 어떤 AWS 서비스를 사용해야 합니까?
 
 A. Amazon Connect
 B. Amazon Lightsail
@@ -249,57 +245,56 @@ D. AWS Storage Gateway
 
 #############################################################################################################
 
-A large enterprise with multiple VPCs in several AWS Regions around the world needs to connect and centrally manage network connectivity between its VPCs.
-Which AWS service or feature meets these requirements?
+전 세계 여러 AWS 리전에서 여러 VPC를 보유한 대기업이 VPC 간의 네트워크 연결을 중앙에서 관리하고 연결해야 합니다. 이 요구사항을 충족하는 AWS 서비스 또는 기능은 무엇입니까?
 
 A. AWS Direct Connect
-B. AWS Transit Gateway  ⭐️
+B. AWS Transit Gateway ⭐️
 C. AWS Site-to-Site VPN
-D. VPC endpoints
+D. VPC 엔드포인트
 
 #############################################################################################################
 
-Which AWS service supports the creation of visual reports from AWS Cost and Usage Report data?
+어떤 AWS 서비스가 AWS 비용 및 사용 보고서 데이터에서 시각적 보고서를 생성하는 것을 지원합니까?
 
 A. Amazon Athena
-B. Amazon QuickSight ⭐️
+B. Amazon QuickSight  ⭐️
 C. Amazon CloudWatch
 D. AWS Organizations
 
-#############################################################################################################
-
-Which IT controls do AWS and the customer share, according to the AWS shared responsibility model? (Choose two.)
-
-A. Physical and environmental controls
-B. Patch management ⭐️
-C. Cloud awareness and training ⭐️
-D. Zone security
-E. Application data encryption
 
 #############################################################################################################
 
-A manufacturing company has a critical application that runs at a remote site that has a slow internet connection. The company wants to migrate the workload to
-AWS. The application is sensitive to latency and interruptions in connectivity. The company wants a solution that can host this application with minimum latency.
-Which AWS service or feature should the company use to meet these requirements?
+WAWS 공유 책임 모델에 따르면, AWS와 고객이 공유하는 IT 통제는 무엇입니까? (두 개 선택)
 
-A. Availability Zones
+A. 물리적 및 환경적 통제
+B. 패치 관리  ⭐️
+C. 클라우드 인식 및 교육 ⭐️
+D. 영역 보안
+E. 애플리케이션 데이터 암호화
+
+
+#############################################################################################################
+
+제조업체가 느린 인터넷 연결을 가진 원격 사이트에서 실행되는 중요한 애플리케이션을 보유하고 있습니다. 회사는 이 워크로드를 AWS로 마이그레이션하고 싶어 합니다. 애플리케이션은 대기 시간에 민감하고 연결 중단에 취약합니다. 회사는 최소한의 대기 시간으로 이 애플리케이션을 호스팅할 수 있는 솔루션을 원합니다. 이 요구사항을 충족하는 AWS 서비스 또는 기능은 무엇입니까?
+
+A. 가용 영역
 B. AWS Local Zones ⭐️
 C. AWS Wavelength
 D. AWS Outposts
 
+
 #############################################################################################################
 
-A company wants to use the AWS Cloud to provide secure access to desktop applications that are running in a fully managed environment.
-Which AWS service should the company use to meet this requirement?
+회사는 AWS 클라우드를 사용하여 완전 관리형 환경에서 실행되는 데스크톱 애플리케이션에 대한 안전한 액세스를 제공하고 싶어 합니다. 회사는 이 요구를 충족하기 위해 어떤 AWS 서비스를 사용해야 합니까?
 
 A. Amazon S3
-B. Amazon AppStream 2.0 ⭐️
+B. Amazon AppStream 2.0  ⭐️
 C. AWS AppSync
 D. AWS Outposts
 
 #############################################################################################################
 
-Which AWS service uses edge locations?
+어떤 AWS 서비스가 엣지 로케이션을 사용합니까?
 
 A. Amazon Aurora
 B. AWS Global Accelerator ⭐️
@@ -308,7 +303,7 @@ D. AWS Outposts
 
 #############################################################################################################
 
-Which AWS service or feature checks access policies and offers actionable recommendations to help users set secure and functional policies?
+어떤 AWS 서비스 또는 기능이 액세스 정책을 확인하고 사용자가 안전하고 기능적인 정책을 설정할 수 있도록 실행 가능한 권장 사항을 제공합니까?
 
 A. AWS Systems Manager
 B. AWS IAM Access Analyzer ⭐️
@@ -317,20 +312,19 @@ D. Amazon GuardDuty
 
 #############################################################################################################
 
-Which characteristics are advantages of using the AWS Cloud? (Choose two.)
+WhAWS 클라우드를 사용하는 것의 장점은 무엇입니까? (두 개 선택)
 
-A. A 100% service level agreement (SLA) for all AWS services
-B. Compute capacity that is adjusted on demand ⭐️
-C. Availability of AWS Support for code development
-D. Enhanced security ⭐️
-E. Increases in cost and complexity
+A. 모든 AWS 서비스에 대해 100%의 서비스 수준 계약(SLA)
+B. 수요에 따라 조정되는 컴퓨팅 용량 ⭐️
+C. 코드 개발을 위한 AWS 지원 가능
+D. 강화된 보안 ⭐️
+E. 비용 및 복잡성 증가
 
 #############################################################################################################
 
-A user is storing objects in Amazon S3. The user needs to restrict access to the objects to meet compliance obligations.
-What should the user do to meet this requirement?
+사용자가 Amazon S3에 객체를 저장하고 있습니다. 사용자는 규정 준수 요구사항을 충족하기 위해 객체에 대한 액세스를 제한해야 합니다. 이 요구사항을 충족하려면 사용자가 무엇을 해야 합니까?
 
-A. Use AWS Secrets Manager.
-B. Tag the objects in the S3 bucket. ⭐️
-C. Use security groups.
-D. Use network ACLs.
+A. AWS Secrets Manager를 사용하십시오.
+B. S3 버킷에 객체 태그를 추가하십시오.  ⭐️
+C. 보안 그룹을 사용하십시오.
+D. 네트워크 ACL을 사용하십시오.
