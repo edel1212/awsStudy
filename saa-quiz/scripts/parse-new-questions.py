@@ -17,6 +17,16 @@ OUT = ROOT / "data" / "new-questions.json"
 
 OPTION_RE = re.compile(r"^\s*-?\s*([A-E])[.\s]\s*(.*)$")
 LABEL_RE = re.compile(r"^(Q추가\d+|Q\.?\d+|\d+)\.?\s*(.*)$")
+ANSWER_RE = re.compile(r"정답\s*:?\s*(.+)$")
+
+
+def parse_answer(text: str) -> str:
+    letters = re.findall(r"[A-E]", text)
+    seen = []
+    for letter in letters:
+        if letter not in seen:
+            seen.append(letter)
+    return ",".join(seen)
 
 
 def parse_block(block: str):
@@ -26,6 +36,7 @@ def parse_block(block: str):
     question_lines = []
     options = {}
     current_option = None
+    answer = ""
     state = "header"
 
     for line in lines:
@@ -46,6 +57,10 @@ def parse_block(block: str):
             continue
 
         if stripped.startswith(">"):
+            body = stripped.lstrip(">").strip()
+            m = ANSWER_RE.search(body)
+            if m:
+                answer = parse_answer(m.group(1))
             continue
 
         opt = OPTION_RE.match(line)
@@ -72,7 +87,12 @@ def parse_block(block: str):
     if not label or not question or not normalized_options:
         return None
 
-    return {"label": label, "question": question, "options": normalized_options}
+    return {
+        "label": label,
+        "question": question,
+        "options": normalized_options,
+        "answer": answer,
+    }
 
 
 def main():
