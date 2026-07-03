@@ -222,6 +222,8 @@
 - TTL: 만료된 데이터 자동 삭제
 - Global Tables: 여러 리전 자동 복제
 - DB Connection 없이 API 호출 방식
+- "자주 업데이트" + "자동 삭제" + "작은 크기"에 적합
+  - 세션 데이터처럼 자주 업데이트되는 소규모(256KB 이하) 데이터에 최적화된 NoSQL 데이터베이스
 
 ### Elastic Cache
 - 자주 조회되는 데이터를 빨리 조회하기 위한 캐시 서비스
@@ -383,12 +385,28 @@ VPC (10.0.0.0/16)
 
 ### SQS
 - 작업 큐 / 비동기 디커플링
+- 작업을 여러 Worker에게 나눠 처리 (병렬 처리 가능)
 - **Standard**: 빠름, 무제한 확장, 순서 보장 X, 중복 가능
 - **FIFO**: 순서 보장 + 정확히 한 번 처리
 - **출제 함정 "큐엔 중복 없는데 처리 결과에 중복"** → 원인: **Visibility Timeout이 너무 짧음** (처리가 끝나기 전 다른 컨슈머가 다시 가져감)
 
+```text
+       Producer
+          │
+          ▼
+        SQS Queue
+          ▲
+ 🔸 Polling(ReceiveMessage)
+ ┌────────┼────────┐
+ │        │        │
+ ▼        ▼        ▼
+Worker1 Worker2 Worker3
+```
+
+
 ### SNS(Amazon Simple Notification Service)
 - 알림 발행/구독 (Pub/Sub)
+- 하나의 이벤트를 **여러 시스템이 받아야 할 때 사용**
 - **데이터 저장 X** (저장은 SQS)
 - SNS + SQS 패턴 = 여러 시스템 팬아웃
 - Email / SMS / HTTP / Lambda 지원
@@ -1040,3 +1058,76 @@ EFS = 여러 EC2가 함께 쓰는 네트워크 드라이브
 🔸 암기
 - (중요) 태그만 추가하면 비용 분석 X → Cost Allocation Tag 활성화까지 해야 함
 ```
+
+# S3
+-  S3는 자주 업데이트되는 세션 데이터를 다루기에 적합하지 않음  (DynamoDB가 훨씬 적합)
+
+# NAT Gateway
+- Private Subnet의 리소스(EC2 등)가 인터넷으로 Outbound 통신할 수 있도록 하는 서비스
+- Public Subnet에 생성되어야 함 (NAT Gateway는 서브넷 안에 존재)
+- Elastic IP(EIP)를 사용하여 인터넷과 통신
+- Internet → Private Subnet 직접 접근은 불가능
+
+```text
+                    Internet
+                        ▲
+                        │
+                 Internet Gateway
+                        ▲
+                        │
+        ┌────────────────────────────────┐
+        │              VPC               │
+        │                                │
+        │  Public Subnet                 │
+        │  ┌─────────────────────────┐   │
+        │  │ NAT Gateway (EIP)       │   │
+        │  └─────────────────────────┘   │
+        │               ▲                │
+        │               │                │
+        │  Private Subnet               │
+        │  ┌─────────────────────────┐   │
+        │  │ EC2                     │   │
+        │  └─────────────────────────┘   │
+        └────────────────────────────────┘
+```
+
+# 0.0.0.0/0 의미
+
+■ Route Table
+- "모든 목적지"를 의미
+- 인터넷으로 나가는 기본 경로(Default Route)
+
+■ Security Group / NACL
+- "모든 IP"를 의미
+- 인바운드에서 사용하면 누구나 접근 가능
+
+
+# Amazon API Gateway
+- 종류 별로 기능이 나뉨
+```text
+[HTTP API]
+- 저비용, 저지연의 경량 API Gateway
+- JWT(Cognito/OIDC) 인증 기본 지원 (자체적으로 직접 검증)
+- 단순 REST API, 마이크로서비스에 적합
+
+키워드
+JWT / Cognito / 저렴 / 빠름
+
+[REST API]
+- 기능이 가장 많은 API Gateway
+- API Key, Usage Plan 지원
+- 캐시(Cache) 지원
+- Request Validation 지원
+- Mapping Template 지원
+
+키워드
+API Key / Cache / Usage Plan / Validation
+```
+
+# IAM Identity Center 와 AWS Organizations 비교
+- IAM Identity Center : 
+  - 사용자 중심(실제 진짜 유저)
+  - 사용자(사람) 로그인 + 권한 관리 (SSO)
+- AWS Organizations : 
+  - AWS 계정 중심 (개발자 혹은 관리자)
+  - 여러 AWS 계정을 묶고 통제하는 관리 시스템
