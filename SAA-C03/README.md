@@ -148,6 +148,7 @@
 | Glacier Deep Archive | 12시간+ 복원, 최저 비용 |
 
 ### S3 보안/잠금
+> S3는 보안 그룹을 사용하지 않음 
 - **Object Lock** (WORM 잠금) — **버전 관리 ON 필수 (세트)**
     - **Governance**: 특별 권한자(`s3:BypassGovernanceRetention`)는 우회 가능
     - **Compliance**: 루트 사용자도 우회 불가, 엄격
@@ -208,13 +209,19 @@
 - 대규모 트래픽의 **수평 확장에는 한계가** 있음 예측 불가능한 대규모 트래픽은 -> **Amazon DynamoDB가 적합**
 
 ### DynamoDB
-- **NoSQL + 트랜잭션 처리 가능 (ACID)**
-- 아이템 크기 제한 : 최대 400KB
-- **PITR (Point-in-Time Recovery)**: 최근 35일, 5분 단위 복구
-- 용량 모드:
-    - **On-Demand**: 자동 확장, 사용한 만큼
-    - **Provisioned**: 처리 용량 미리 지정
-- **DAX**: 마이크로초 단위 인메모리 캐싱
+- NoSQL(Key-Value / Document) 데이터베이스
+- 수평 확장(Scale-Out)에 최적화
+- ACID 트랜잭션 지원
+- 아이템 최대 크기: 400KB
+- PITR: 최근 35일 원하는 시점으로 복구
+- 용량 모드
+    - On-Demand: 자동 확장, 사용량 기반 과금
+    - Provisioned: RCU/WCU 직접 지정
+- DAX: 읽기 성능 향상을 위한 인메모리 캐시
+- Streams: 테이블 변경 이벤트 기록
+- TTL: 만료된 데이터 자동 삭제
+- Global Tables: 여러 리전 자동 복제
+- DB Connection 없이 API 호출 방식
 
 ### Elastic Cache
 - 자주 조회되는 데이터를 빨리 조회하기 위한 캐시 서비스
@@ -251,13 +258,13 @@ VPC (10.0.0.0/16)
     - 트래픽 흐름: NACL → SG → 인스턴스 (이중 방어)
 
 ### VPC 게이트웨이 종류
-| 종류 | 역할 |
-|---|---|
-| **Internet Gateway (IGW)** | VPC ↔ 인터넷 양방향 통로 |
+| 종류 | 역할                                  |
+|---|-------------------------------------|
+| **Internet Gateway (IGW)** | VPC ↔ 인터넷 양방향 통로                    |
 | **NAT Gateway** | 프라이빗 서버의 **나가는 길 전용** (외부 시작 연결 차단) |
-| **VPC Endpoint (Gateway)** | VPC ↔ S3/DynamoDB 인터넷 우회 |
-| **VPC Endpoint (Interface) / PrivateLink** | 다른 VPC의 특정 서비스 하나 프라이빗 연결 |
-| **Virtual Private Gateway (VGW)** | VPC ↔ 온프레미스 (VPN) |
+| **VPC Endpoint (Gateway)** | VPC ↔ 🔍 (단2개) S3/DynamoDB 인터넷 우회   |
+| **VPC Endpoint (Interface) / PrivateLink** | 다른 VPC의 특정 서비스 하나 프라이빗 연결           |
+| **Virtual Private Gateway (VGW)** | VPC ↔ 온프레미스 (VPN)                   |
 
 ### NAT vs IGW
 | | IGW | NAT |
@@ -447,7 +454,9 @@ VPC (10.0.0.0/16)
 - 쿼리한 데이터양만큼 과금
 
 ### QuickSight
-- BI 시각화·대시보드
+- BI 시각화·대시보드 (비즈니스 분석)
+  - **리포팅용 시각화 도구** 
+  - 🔸 **실시간 모니터링** 대시보드로는 CloudWatch가 적합
 - ⚠️ **대시보드는 IAM 역할이 아니라 QuickSight 사용자/그룹에게 공유**
 
 ### AWS Glue
@@ -460,12 +469,21 @@ VPC (10.0.0.0/16)
 
 ### Amazon EMR
 - TB~PB급 빅데이터 처리용 클러스터 서비스
-- **직접 관리**하는 Spark/Hadoop 빅데이터 클러스터
-- 빅데이터 처리
-- **Instance Fleet + Spot** 조합이 비용 효율 (자주 출제)
+- EMR 클러스터는 여러 EC2 인스턴스로 구성
+- **직접 관리**하는 Spark/Hadoop 빅데이터 처리 클러스터
 - Security Configuration 기능 존재 하나의 설정으로 암호화 가능
   - 전송 중, 저장 시, 로컬 볼륨 암호화를 한 곳에서 모두 관리
   -  EMR에 특화된 정식 기능이라 가장 직접적이고 완전한 해결책
+- 👍 (자주 출제) **Instance Fleet + Spot** 조합이 비용 효율 
+    - 온디맨드 + 스팟 "혼합" 가능하여, 여러 인스턴스 유형 지정 가능
+```text
+Instance Group = 노드 유형별로는 다르게 설정 가능(코어=온디맨드/태스크=스팟 OK)
+                 but 같은 노드 유형 안에서는 인스턴스 유형/구매옵션 혼합 불가, 단일 AZ만 가능
+
+Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 혼합 가능
+                 + 여러 AZ 중 조건 맞는 곳을 자동으로 탐색해서 시작 가능 (이번 문제의 핵심)
+```
+
 
 ### OpenSearch Service
 - 대량 로그 검색·분석·시각화
@@ -514,7 +532,8 @@ VPC (10.0.0.0/16)
 ### Auto Scaling
 - **Target Tracking**: 특정 메트릭(CPU 50% 등) 기준 자동 증감 → 가장 일반적
 - **Step Scaling**: 임계값 단계별 증감
-- **Scheduled**: 시간 기반
+- **Scheduled(예약된 확장 작업)**: 시간 기반
+  - ex) 피크 시간 전후에 원하는 용량을 변경하기 위해 반복 옵션이 있는 예약된 확장 작업
 - **Predictive**: ML 예측 기반
 
 ---
@@ -549,7 +568,7 @@ VPC (10.0.0.0/16)
 | **Multi-Site Active/Active** | 거의 0 | 매우 높음 | 두 리전 모두 풀가동 |
 
 ### AWS Backup
-- 여러 AWS 서비스(DynamoDB, RDS, EBS, EFS 등) 백업 중앙 관리
+- 여러 AWS 서비스(DynamoDB, RDS, EBS, EFS 등) 백업 중앙 관리하는 완성된 관리형 서비스 (**운영 비용 최소화**)
 - 일정·보존 정책 설정만으로 자동화
 - 장기 보관(7년 등)도 한 번 설정으로 가능
 - DynamoDB PITR과 차이: PITR은 **최근 35일**까지만
@@ -878,8 +897,9 @@ AWS Budgets
 - 물리적으로 보호되는 전용 하드웨어 장비
 
 # OAC(Origin Access Control)
-- CloudFront가 S3에 접근(업로드 포함) 할 수 있도록 허용하는 최신 방식
 - S3 버킷은 CloudFront를 통해서만 접근 가능하도록 제한 (직접 접근 차단)
+  - CloudFront가 S3에 접근(업로드 포함) 할 수 있도록 허용하는 최신 방식
+  - 사용자가 S3 URL을 직접 입력해 접근하는 것을 차단 (보안 강화)
 - 최근 CloudFront는 업로드(PUT)까지 지원하도록 발전 (기존엔 GET만 캐싱했지만, 이제 오리진으로 업로드 요청도 전달 가능)
 
 # RDS 백업
@@ -949,3 +969,74 @@ Security Hub = “보안 상태/취약점 모니터링”
 - 데이터 소스를 데이터 레이크로 자동 적재하는 템플릿
 - Glue ETL Job 자동 생성 기능
 - RDS / DB → S3 데이터 레이크 자동 변환
+
+
+# AWS Site-to-Site VPN
+- 온프레미스 네트워크와 AWS VPC를 인터넷 기반 암호화 터널(IPsec)로 연결하는 서비스(VPN 사용)
+- 비용 저렴 : 전용 회선 없음 / 인터넷 기반이라 저비용
+    - 빠르게 하이브리드 연결 필요
+    - 소규모~중간 규모 트래픽
+- 중요 포인트 : 대역폭 제한 있음
+    - 보통 ~1.25Gbps 이하
+    - 인터넷 품질 영향 받음
+
+
+# EFS (Amazon Elastic File System)
+- 여러 EC2/Lambda가 동시에 공유하는 완전관리형 파일 시스템
+- 독립적으로 존재할 수 없고, 항상 어떤 VPC에 소속되어 있어야 접근 가능
+- NFS 기반
+- VPC의 Mount Target을 통해 접근
+  - EFS에 접속하기 위한 VPC 내부의 ENI(네트워크 진입점)
+- 저장 용량 자동 확장(Elastic)
+- 여러 AZ에서 동시에 공유 가능
+
+```text
+* 암기
+EBS = EC2 전용 디스크
+EFS = 여러 EC2가 함께 쓰는 네트워크 드라이브
+```
+
+# API Gateway
+
+■ Endpoint Type (택 1)
+- Edge-Optimized: CloudFront 기반, 전 세계 사용자 지연 시간 최소화
+- Regional: 같은 리전 사용자 또는 직접 CloudFront를 구성할 때 사용
+- Private: VPC 내부에서만 접근 가능 (Interface VPC Endpoint 필요)
+
+■ 기능 (필요 시 활성화)
+- Cache: API 응답 캐싱 → Lambda/백엔드 호출 감소, 응답 속도 향상
+- Compression: 응답 데이터 압축(gzip) → 전송량 감소, 지연 시간 감소
+- Throttling: 초당 요청(RPS) 및 Burst 제한 → API 남용 방지
+- API Key: 클라이언트 식별 및 Usage Plan과 함께 호출량 제한/관리
+- 
+```text
+* 암기
+- 글로벌 사용자 → Edge-Optimized
+- 같은 리전 → Regional
+- VPC 내부 → Private
+- 반복 조회 → Cache
+- 응답 속도 향상(전송량 감소) → Compression
+- API 보호 → Throttling + API Key
+```
+
+# Amazon CloudWatch
+- AWS 리소스의 메트릭, 로그, 이벤트를 모니터링하는 서비스
+- Dashboard 및 Alarm 제공
+- AWS 서비스(EC2, Lambda, RDS 등)의 메트릭은 자동 수집
+- 애플리케이션 메트릭은 Custom Metric으로 직접 전송해야 함 (🔸 자동 아님)
+  - 실시간 수집 → Kinesis Data Streams
+  - 실시간 처리 → Apache Flink
+  - 처리 결과를 CloudWatch Custom Metric으로 전송
+
+# Cost Allocation Tag
+- 리소스 비용을 태그 기준으로 분류하는 기능
+- **태그 구조**: 키(Key) = CostCenter, 값(Value) = 팀 이름
+  - 내가 찾고자 하는 **대표 값이 Key** 여야 함
+- 순서
+    1. 리소스에 사용자 정의 태그 추가 (예: CostCenter=TeamA)
+    2. Billing에서 Cost Allocation Tag **활성화**
+    3. Cost Explorer / CUR에서 비용 분석
+```text
+🔸 암기
+- (중요) 태그만 추가하면 비용 분석 X → Cost Allocation Tag 활성화까지 해야 함
+```
