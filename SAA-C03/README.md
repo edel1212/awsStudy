@@ -210,7 +210,7 @@
 
 ### DynamoDB
 - NoSQL(Key-Value / Document) 데이터베이스
-- 수평 확장(Scale-Out)에 최적화
+- 수평 확장(Scale-Out)에 최적화 (👍트래픽 폭주 시 RDS보다 확장 용이)
 - ACID 트랜잭션 지원
 - 아이템 최대 크기: 400KB
 - PITR: 최근 35일 원하는 시점으로 복구
@@ -298,8 +298,11 @@ VPC (10.0.0.0/16)
 - **출제 트리거 단어**: third-party appliance, Firewall Appliance, AWS Marketplace Appliance, IDS/IPS, Traffic Inspection, Deep Packet Inspection, Transparent Insertion
 
 ### CloudFront
-- **기본 HTTPS** 사용 가능 (`*.cloudfront.net`)
-- 커스텀 도메인 HTTPS 사용 → **ACM 필요 (반드시 us-east-1)**
+> 리전은 무조건 us-east-1 ONLY
+- 기본 도메인 (*.cloudfront.net)
+  - HTTPS 자동 제공 (ACM 필요 없음)
+- 커스텀 도메인 + HTTPS 사용
+  - ACM 인증서 필요 + 무조건 리전 us-east-1
 - Shield Advanced와 결합 시 DDoS 트래픽 엣지에서 흡수
 
 ### Global Accelerator
@@ -350,6 +353,7 @@ VPC (10.0.0.0/16)
 ※ CloudHSM이 필요한 경우
 - 일반 KMS 키는 CloudHSM에 저장되지 않음
 - 고객 전용 HSM이 필요하면 KMS Custom Key Store(AWS CloudHSM 기반 KMS 키)를 사용
+  - "AWS CloudHSM 기반 AWS KMS 키를 사용"으로 해야함 키를 HSM에 저장 ❌
 
 ### Secrets Manager
 - DB 자격증명·API 키 관리
@@ -418,6 +422,14 @@ Worker1 Worker2 Worker3
 ### EventBridge
 - AWS 서비스 이벤트 감지 → 규칙에 따라 라우팅 (SNS, Lambda 등)
 - 스키마·필터링·SaaS 통합 강점
+
+### EventBridge Scheduler (중요)
+- cron / schedule 실행
+  - 정해진 시간마다 실행
+- 서버리스 스케줄러
+- Lambda / Step Functions 호출 가능
+  - Lambda 트리거용으로 많이 사용됨
+- 👉 "정기 작업 자동 실행"
 
 ### Step Functions (★ 자주 출제)
 - **시각적 상태 머신(State Machine)** 으로 워크플로를 정의·실행
@@ -489,7 +501,7 @@ Worker1 Worker2 Worker3
 - TB~PB급 빅데이터 처리용 클러스터 서비스
 - EMR 클러스터는 여러 EC2 인스턴스로 구성
 - **직접 관리**하는 Spark/Hadoop 빅데이터 처리 클러스터
-- Security Configuration 기능 존재 하나의 설정으로 암호화 가능
+- **ERM Security Configuration(보안구성)** 기능 존재 하나의 설정으로 암호화 가능
   - 전송 중, 저장 시, 로컬 볼륨 암호화를 한 곳에서 모두 관리
   -  EMR에 특화된 정식 기능이라 가장 직접적이고 완전한 해결책
 - 👍 (자주 출제) **Instance Fleet + Spot** 조합이 비용 효율 
@@ -709,10 +721,10 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 # FSx
 > 용도: 높은 처리량과 낮은 지연 시간을 요구하는 **고성능 파일 스토리지 서비스**
 - FSx for Lustre:
-    - 머신러닝, 빅데이터 분석용.
-    - HPC 전용으로 설계된 고성능 파일 시스템 (HPC 대표적인 스토리지 솔루션)
-    - S3 연동 가능
-    - Lustre 자체 프로토콜만 지원 가능
+  - HPC 전용 고성능 파일 시스템 (스토리지)
+  - 머신러닝, 빅데이터 분석용
+  - S3 연동 가능
+  - POSIX 호환 (Lustre 기반 병렬 파일 시스템)
 - FSx for NetApp ONTAP: 윈도우/맥/리눅스 호환, NFS 및 SMB 지원.
 - FSx for Windows File Server: Window 최적화 SMB 프로토콜 전용.
 - FSx for OpenZFS: OpenZFS 환경 그대로 이전이 필요할 경우 사용 NFS 프로토콜 지원.
@@ -898,9 +910,9 @@ Root (조직 전체)
 
 # Budgets
 - 비용에 대한 알림을 주거나 action 기능 수행
-- Budgets Actions(예산 작업)  :  별도로 Lambda나 EventBridge를 만들지 않아도, Budgets 자체에서 직접 EC2를 중지시키는 자동화 작업을 설정
-  - 예산 금액 : "실제 지출이 설정한 예산액에 도달했다"는 **실측치 기준**
-  - 예산 비용 : "이번 달에 이 속도로 쓰면 예산을 초과할 것 같다"는 **예측치 기준**
+- ✅Budgets Actions(예산 작업)  :  별도로 Lambda나 EventBridge를 만들지 않아도, Budgets 자체에서 직접 EC2를 중지시키는 자동화 작업을 설정
+  - 예산 금액 : "실제 지출이 설정한 예산액에 도달했다"는 **실측치 기준**  [딱코]
+  - 예산 비용 : "이번 달에 이 속도로 쓰면 예산을 초과할 것 같다"는 **예측치 기준** [미래]
 ```text
 AWS Budgets
    ├── 알림(Alert) 설정: "예산의 100% 도달 시"
@@ -1131,3 +1143,7 @@ API Key / Cache / Usage Plan / Validation
 - AWS Organizations : 
   - AWS 계정 중심 (개발자 혹은 관리자)
   - 여러 AWS 계정을 묶고 통제하는 관리 시스템
+
+# Multi-AZ DB 클러스 VS Read Replica 잘맞는 방향
+- **Multi-AZ DB 클러스터 + 리더 엔드포인트** : "짧고 빈번한 읽기 쿼리"
+- **Read Replica** : "대규모 배치 분석 + 지연 허용"
