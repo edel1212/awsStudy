@@ -163,12 +163,13 @@
 - 단점: **전송·저장 비용 발생** → "비용 최소화" 키워드면 오답
 
 ### Storage Gateway 4종류
-> 온프레미스 애플리케이션이 AWS 스토리지(S3, FSx, Snapshot, Glacier)를 기존 방식(SMB/NFS/iSCSI/Tape) 그대로 사용할 수 있게 해주는 브리지 서비스
-> - 요약) 온프레미스에서 AWS 스토리지를 사용할 수 있도록 연결해주는 하이브리드 서비스
-
+```text
+온프레미스 애플리케이션이 AWS 스토리지(S3, FSx, Snapshot, Glacier)를 기존 방식(SMB/NFS/iSCSI/Tape) 그대로 사용할 수 있게 해주는 브리지 서비스
+- 요약) 온프레미스에서 AWS 스토리지를 사용할 수 있도록 연결해주는 하이브리드 서비스
+```
 
 | 종류 | 용도 | 참고 |
-|---|---|
+|---|---|---|
 | **S3 File Gateway** | S3를 SMB/NFS 파일 서버처럼 사용(자주 사용하는 데이터는 로컬 캐시에 저장) | 파일 자체를 업로드 하였기에 실시간 사용 가능 |
 | **FSx File Gateway** | S3가 아니라 FSx for Windows File Server를 온프레미스에서 쉽게 사용할 수 있게 해주는 Gateway (온프레미스 로컬 캐시) | - |
 | **Volume Gateway** | EBS Snapshot (S3에 저장) - 블록(iSCSI)을 클라우드에 백업 | 파일이 아닌 스냅샷 이기에 실시간 사용 불가능|
