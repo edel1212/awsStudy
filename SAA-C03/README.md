@@ -135,17 +135,6 @@
 - **Fast Snapshot Restore (FSR)**: 복원 즉시 일관된 고I/O 보장
 - 출제 신호: "복제 시간 최소화 + 즉시 고I/O + 프로덕션 영향 없음" → **스냅샷 + FSR**
 
-### S3 스토리지 클래스
-| 클래스 | 특징 |
-|---|---|
-| Standard | 자주 접근, 다중 AZ |
-| Intelligent-Tiering | 액세스 패턴 모를 때, 자동 계층 이동 |
-| Standard-IA | 가끔 접근, 다중 AZ |
-| One Zone-IA | 가끔 접근, **단일 AZ**, 최저 비용 (복원력 ↓) |
-| Glacier Instant Retrieval | 밀리초 + 가끔 사용 (아카이브 중 가장 빠름) |
-| Glacier Flexible Retrieval | 분~시간 단위 복원 (구 Glacier) |
-| Glacier Deep Archive | 12시간+ 복원, 최저 비용 |
-
 ### S3 보안/잠금
 > S3는 보안 그룹을 사용하지 않음 
 - **Object Lock** (WORM 잠금) — **버전 관리 ON 필수 (세트)**
@@ -154,6 +143,13 @@
 - **Presigned URL**: 임시 권한 서명된 URL → EC2 거치지 않고 S3에 직접 업/다운로드 (부하 감소)
 - **OAI/OAC**: S3를 Private으로 두고 CloudFront 경유만 허용 (S3 URL 직접 접근 차단)
 - S3는 **보안 그룹 못 붙임** (SG는 VPC 리소스 전용) → IAM/버킷 정책으로 제어
+
+### S3 접근 제어
+- 1) IAM Policy (Identity-based)
+  - 사용자 / Role / Group에 적용 (“이 주체가 S3 접근 가능 하도록 함”)
+- 2) Bucket Policy (Resource-based)
+  - S3 버킷 자체에 적용 (“이 버킷은 누구를 허용할지”)
+  - ☠️IAM Policy 아님
 
 ### S3 암호화 (SSE)
 | 종류 | 키 관리 |
@@ -168,7 +164,8 @@
 
 ### Storage Gateway 4종류
 > 온프레미스 애플리케이션이 AWS 스토리지(S3, FSx, Snapshot, Glacier)를 기존 방식(SMB/NFS/iSCSI/Tape) 그대로 사용할 수 있게 해주는 브리지 서비스
-> - AWS 스토리지를 사용할 수 있도록 연결해주는 하이브리드 서비스
+> - 요약) 온프레미스에서 AWS 스토리지를 사용할 수 있도록 연결해주는 하이브리드 서비스
+
 
 | 종류 | 용도 | 참고 |
 |---|---|
@@ -303,8 +300,10 @@ VPC (10.0.0.0/16)
 ### Gateway Load Balancer (출제 단골)
 - 방화벽/보안 어플라이언스 트래픽 검사용
 - 타사 가상 어플라이언스(방화벽/IDS/IPS) 통합 전용
-- ✅웹 API 통합 시나리오에는 **부적합**
 - ✅Network Firewall은 **GWLB를 내부적으로 사용하는 관리형 서비스**
+- ☠️인가 인증 기능 ❌ (방화벽/IDS/IPS 같은 네트워크 어플라이언스 삽입용)
+- ☠️ 인증/HTTP/API 개념 없음
+  - ✅웹 API 통합 시나리오에는 **부적합**
 - GWLB 엔드포인트로 IP 패킷을 어플라이언스에 보내 검사 후 되돌림
 - **출제 트리거 단어**: third-party appliance, Firewall Appliance, AWS Marketplace Appliance, IDS/IPS, Traffic Inspection, Deep Packet Inspection, Transparent Insertion
 
@@ -743,8 +742,10 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
  
 # EBS (Elastic Block Store)
 - EC2 또는 RDS에 연결하여 사용하는 블록 스토리지 (외장 SSD/HDD와 유사)
+- 기본적으로 1:1 연결 (single attachment) 구조
 - EC2/RDS 전용, 단일 가용 영역(AZ)에서 작동, 고성능 스토리지 유형 존재
-- OS, DB, 애플리케이션 저장에 사용 찐 하드 (S3는 객체저장소임)
+- OS, DB, 애플리케이션 저장 (찐 하드 저장소 느낌)
+  - EFS를 사용하더라도 EBS는 뺄수 없음 (OS 및 필수 저장을 해야하니)
 
 # FSx
 > 용도: 높은 처리량과 낮은 지연 시간을 요구하는 **고성능 파일 스토리지 서비스**
@@ -1357,3 +1358,7 @@ API Key / Cache / Usage Plan / Validation
 - CloudWatch Logs 또는 S3로 전송
 - 트래픽 내용(페이로드)은 못 봄 — 어디서 어디로, 허용/거부됐는지만 기록
 - 키워드: "누가 접속했는지 조사", "트래픽 거부/허용 확인", "네트워크 문제 진단"
+
+# AWS에서 이벤트 데이터는 거의 항상 저장 방법 및 위치
+- S3 (저장)
+- Kinesis / Firehose (스트림)
