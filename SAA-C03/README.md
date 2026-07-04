@@ -185,13 +185,13 @@
 
 ### Aurora
 - MySQL/PostgreSQL 호환
-- [Multi-AZ]분산 스토리지 기반 (3 AZ, 6 copies 자동 복제)
+- [Multi-AZ] **분산** 스토리지 기반 (3 AZ, 6 copies 자동 복제)
   - 빠른 failover (몇 초 단위 복구)
 - Read Replica 최대 15개까지 확장 가능
   - ⚠️ 기본적으로 자동 증감 아님
   - 필요 시 Aurora Auto Scaling 기능으로 자동 조정 가능
-- ✅스토리지: 자동 분산 (Aurora 자체 특징) 
-- 컴퓨트:
+- ✅스토리지: **자동 분산** (Aurora 자체 특징) [✏️ 분산임!!] 
+- 컴퓨트(CPU + RAM):
   - Provisioned(고정형): 인스턴스 고정 
   - Serverless v2(유동형): 자동 ACU 스케일
 - **출제 신호**: 
@@ -204,13 +204,49 @@
 - 리전 장애가 발생해도 빠르게 복구
 
 ### RDS
-- **중지(stop) 최대 7일** 이후 알아서 자동 재시작
-- 한 달 비가동이 필요할 경우 : **스냅샷 + 인스턴스 삭제 → 다음 달 복원**이 가장 비용 효율적
-- **RDS 암호화는 생성 시만 가능** : 스냅샷 → 암호화된 스냅샷 복사 → 새 인스턴스로 복원
-- **RDS Custom**: OS 접근 가능 (SSH로 설정 파일 변경, 툴 설치 가능)
-- **RDS Proxy**: Lambda + RDS의 "too many connections" 해결 (연결 풀링)
-- 프로비저닝된 IOPS SSD 활성화 : 비용은 비싸지만 높은 처리량과 짧은 지연시간을 가져올 수 있다.
-- 대규모 트래픽의 **수평 확장에는 한계가** 있음 예측 불가능한 대규모 트래픽은 -> **Amazon DynamoDB가 적합**
+> RDS는 EBS 기반 스토리지를 사용한다
+#### 1) 운영/가용성 규칙 (기본 동작)
+- 인스턴스 stop : 최대 7일 이후 **자동 재시작**됨
+- 장기 중단 필요 시: 스냅샷 → 삭제 → 복원 (비용 최적화)
+  - ex) **스냅샷 + 인스턴스 삭제 → 다음 달 복원**  (가장 비용 효율적 방법)
+
+#### 2) 보안/암호화 규칙
+> “중간 변경 불가 = 재생성 구조”
+- RDS 암호화는 생성 시 결정
+- 변경 필요 시 : 스냅샷 복사(암호화) → 새 DB 복원
+
+#### 3) 성능/IO 최적화
+> “비용 ↑ = 성능 ↑”
+- Provisioned IOPS SSD 사용 가능
+  - 높은 처리량
+  - 낮은 latency
+  - 😦단점 : 비용 증가
+
+#### 4) 확장 한계 [중요 시험 포인트]
+- 수직 확장 중심(Scale Up/Down, 인스턴스 클래스 변경)
+  - 인스턴스 클래스를 더 큰 것으로 바꾸는 방식이 기본
+- 수평 확장 제한 있음
+  - 쓰기(Write)는 기본 인스턴스 하나만 담당 (수평 확장 불가)
+  - 읽기(Read)는 Read Replica로 수평 확장 가능
+- Read Replica로 **읽기(Read)는 분산 가능**
+  - 읽기 부하는 여러 복제본으로 나눌 수 있음
+
+#### 5) 확장 한계 해결 전략
+- ✏️ Amazon DynamoDB (예측 불가능 + 대규모 확장 필요 시) 
+  - ✅완전 수평 확장 (serverless scaling)
+  - 자동 파티셔닝
+- ✏️Aurora (RDS 대비 확장성과 내구성이 더 강한 DB)
+  - 스토리지: 자동 분산 (6 copies / 3 AZ)
+  - 읽기 확장: 최대 15개 Read Replica
+  - 컴퓨트: Aurora Serverless v2 사용 시 **자동 ACU 스케일**
+
+#### 6) Amazon RDS Proxy
+- Lambda / EC2  "too many connections" 해결 (연결 풀링)
+
+#### 7) RDS Custom
+- OS 접근 가능
+- SSH 가능
+- 설정 변경 가능
 
 ### DynamoDB
 - NoSQL(Key-Value / Document) 데이터베이스
