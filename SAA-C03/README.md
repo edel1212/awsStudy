@@ -67,20 +67,20 @@
 | Kafka 관리형 | **MSK** |
 
 ### DB/컴퓨팅 키워드
-| 키워드 | 정답 |
-|---|---|
-| 읽기 복제본 자동 확장 | **Aurora** |
+| 키워드                                        | 정답 |
+|--------------------------------------------|---|
+| 읽기 복제본 자동 확장                               | **Aurora** |
 | Lambda + DB 연결 수 폭주 (too many connections) | **RDS Proxy** |
-| OS 접근 가능한 DB | **RDS Custom** |
-| DynamoDB 과거 시점 복구 (35일 내, 5분 단위) | **PITR (Point-in-Time Recovery)** |
-| 컨테이너 이미지만으로 웹/HTTP API 서버 | **App Runner** |
-| ECS/EKS 서버리스 컴퓨팅 | **Fargate** |
-| 여러 EC2에 즉시 일괄 명령 | **SSM Run Command** |
-| OS·SW 정기 패치 자동화 | **SSM Patch Manager** |
-| SSH 키 없이 EC2 접속 (22 포트 X) | **SSM Session Manager** |
-| Hadoop/Spark 빅데이터 클러스터 | **EMR** |
-| 서버리스 ETL | **Glue** |
-| S3 데이터 SQL 쿼리 (서버리스) | **Athena** |
+| OS 접근 가능한 DB                               | **RDS Custom** |
+| DynamoDB 과거 시점 복구 (35일 내, 초 단위)            | **PITR (Point-in-Time Recovery)** |
+| 컨테이너 이미지만으로 웹/HTTP API 서버                  | **App Runner** |
+| ECS/EKS 서버리스 컴퓨팅                           | **Fargate** |
+| 여러 EC2에 즉시 일괄 명령                           | **SSM Run Command** |
+| OS·SW 정기 패치 자동화                            | **SSM Patch Manager** |
+| SSH 키 없이 EC2 접속 (22 포트 X)                  | **SSM Session Manager** |
+| Hadoop/Spark 빅데이터 클러스터                     | **EMR** |
+| 서버리스 ETL                                   | **Glue** |
+| S3 데이터 SQL 쿼리 (서버리스)                       | **Athena** |
 
 ---
 
@@ -122,11 +122,11 @@
 ## 3. 스토리지 (Storage)
 
 ### EBS vs S3 vs EFS
-| 서비스 | 비유 | 핵심 |
-|---|---|---|
-| **EBS** | EC2에 붙이는 SSD | 블록 스토리지, 단일 EC2 (io2는 Multi-Attach 가능) |
-| **S3** | 무제한 파일 저장소 | 객체 스토리지, **리전 서비스(서브넷 X)**, 정적 파일용 |
-| **EFS** | 공유 폴더 | NFS, Linux 전용, 다중 AZ 자동 |
+| 서비스 | 비유 | 핵심                                         |
+|---|---|--------------------------------------------|
+| **EBS** | EC2에 붙이는 SSD | 블록 스토리지, 단일 EC2 (io1/io2는 Multi-Attach 가능) |
+| **S3** | 무제한 파일 저장소 | 객체 스토리지, **리전 서비스(서브넷 X)**, 정적 파일용         |
+| **EFS** | 공유 폴더 | NFS, Linux 전용, 다중 AZ 자동                    |
 
 > ⚠️ S3는 정적 파일용. **트랜잭션·동적 처리에 부적합** (주문 DB로 쓰면 안 됨)
 
@@ -187,9 +187,15 @@
 
 ### Aurora
 - MySQL/PostgreSQL 호환
-- Read Replica 최대 15개, Auto Scaling으로 자동 증감
-  - 🔍 일반 RDS는 스토리지만 Auto Scaling 함
-- Multi-AZ 스토리지 자동 복제(기본 3AZ, 6개 복사본)
+- [Multi-AZ]분산 스토리지 기반 (3 AZ, 6 copies 자동 복제)
+  - 빠른 failover (몇 초 단위 복구)
+- Read Replica 최대 15개까지 확장 가능
+  - ⚠️ 기본적으로 자동 증감 아님
+  - 필요 시 Aurora Auto Scaling 기능으로 자동 조정 가능
+- ✅스토리지: 자동 분산 (Aurora 자체 특징) 
+- 컴퓨트:
+  - Provisioned(고정형): 인스턴스 고정 
+  - Serverless v2(유동형): 자동 ACU 스케일
 - **출제 신호**: 
   - "읽기 복제본 자동 확장" → Aurora
   - "최대 15개 Read Replica" → Aurora
@@ -681,6 +687,7 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 # NLB/ALB 보안 그룹 지원 여부
 - ALB : ✅ 가능
 - NLB : ❌ NLB 자체엔 직접 적용 불가
+  - 2023년 이후 지원함 다만 - 기존에 만든 NLB에는 못붙임 새로 생성해야 함 
 
 # Launch Template 
 - EC2 생성 설정서
@@ -729,7 +736,7 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 - 불가능: ❌ Lambda | ❌ Fargate
 
 # Reserved Instances (예약 인스턴스)
-- EC만 사용 가능하다.
+- ✅ Fargate·Lambda는 RI 불가
 - 리전, OS, 인스턴스 패밀리가 고정이다.
 - 전환형 RI (Convertible RI)이 존제함
   - OS 및 인스턴스 패밀리 및 크기 변경이 가능한 버전
@@ -805,7 +812,8 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 - 고가용성 확보를 위한 기능 성능 향상에는 도움 ❌
 
 # RDS Multi AZ DB Cluster 
-- 기존 DB를 복제해서 읽기 전용 DB를 2대 이상 더 추가하여 구성하는 것
+- Amazon RDS의 고가용성 + 읽기 일부 확장 지원 구조
+- Writer + Readable standby 구조
 - 고가용성 + 읽기 성능 개선 👌
 
 # RDS Read Replica
@@ -1101,6 +1109,7 @@ S3 이벤트 알림 → 다음 3곳 중 하나로 "직접" 보낼 수 있음
    ① AWS Lambda 함수
    ② Amazon SQS 큐
    ③ Amazon SNS 토픽
+   4 Amazon EventBridge
 ```
 
 # NAT Gateway
@@ -1187,6 +1196,9 @@ API Key / Cache / Usage Plan / Validation
 - 객체를 시간 경과에 따라 자동으로 다른 스토리지 클래스로 전환하거나 만료(삭제)시키는 규칙
   - ✅ 일정 기간 미접근 파일을 자동으로 EFS IA로 이동
 - **비용 최적화** 문제의 정답으로 자주 출제
+
+# S3 Lifecycle Policy
+- 객체를 시간 경과에 따라 자동으로 다른 스토리지 클래스로 전환하거나 만료(삭제)시키는 규칙
 
 # EFS Throughput Mode 
 - Bursting Throughput (Default)
@@ -1339,3 +1351,9 @@ API Key / Cache / Usage Plan / Validation
 - io1/io2 (프로비저닝된 IOPS SSD) → 미션 크리티컬 DB, 일관된 고IOPS 필요
   - 초고 IOPS 필요 (고성능 DB)
   - 비용 가장 비쌈
+
+# VPC Flow Logs 
+- VPC/서브넷/ENI를 오가는 IP 트래픽 정보를 캡처하는 로그
+- CloudWatch Logs 또는 S3로 전송
+- 트래픽 내용(페이로드)은 못 봄 — 어디서 어디로, 허용/거부됐는지만 기록
+- 키워드: "누가 접속했는지 조사", "트래픽 거부/허용 확인", "네트워크 문제 진단"
