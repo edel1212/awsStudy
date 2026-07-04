@@ -380,16 +380,8 @@ VPC (10.0.0.0/16)
 
 > **Role에 Policy를 붙이는 개념** — S3·EC2 등에도 Role을 통해 권한 부여
 
-### 방화벽/보안 서비스 구분
-| 키워드 | 서비스 |
-|---|---|
-| VPC 트래픽 실제 검사·차단 | **Network Firewall** |
-| 여러 계정 정책 중앙 관리 (NF/WAF/SG) | **Firewall Manager** (방화벽 자체 X, 관리 도구) |
-| 위협 탐지·알림 (차단 X) | **GuardDuty** |
-| L7 웹앱 보호 (SQLi, XSS) | **WAF** (ALB·CloudFront·API GW 지원, **NLB 직접 연결 X**) |
-| DDoS 방어 | **Shield** |
-
 ### Shield
+> DDos 방어
 - **Standard**: 무료, 자동, 일반 DDoS
 - **Advanced**: 유료, 대규모·고도화 DDoS, 24/7 DRT 대응, 비용 보호
 - 대규모 DDoS + 무중단 → **Shield Advanced + CloudFront**
@@ -406,7 +398,7 @@ VPC (10.0.0.0/16)
   - "AWS CloudHSM 기반 AWS KMS 키를 사용"으로 해야함 키를 HSM에 저장 ❌
 
 ### Secrets Manager
-- DB 자격증명·API 키 관리
+- DB 자격증명 / API 키 관리
 - **자동 로테이션** (Parameter Store에는 없음)
 
 ### IAM Identity Center + AD 트러스트
@@ -417,9 +409,11 @@ VPC (10.0.0.0/16)
 | 양쪽 사용자/그룹 유지 | **Bidirectional Forest Trust 필수** |
 
 ### aws:PrincipalOrgID
-- IAM 조건 키
-- S3 버킷 정책 등에서 "Organization 소속 계정만 접근 허용"
-- 새 계정 추가 시 정책 수정 불필요
+> 조직의 “Organization ID(o-xxxx)” 기준으로 요청을 보낸 Principal(사용자/Role)이 그 조직에 속하는지를 검사하는 조건 키
+- IAM Policy Condition Key (조건 키)
+  - AWS Organization ID에 속한 계정인지 확인하는 조건 키이며 “Organization ID 단위”로만 검사한다
+- S3 Bucket Policy / IAM Policy / VPC Endpoint Policy 정책 등에서 "Organization 소속 계정만 접근 허용"과 같은 필터링 사용
+- 새 계정 추가 시 정책 수정 불필요 (조직에 넣어주기만 하면 됌)
 
 ### Inspector vs Macie
 - **Inspector**: EC2/ECR/Lambda 보안 취약점(CVE) 자동 스캔
@@ -476,6 +470,7 @@ Worker1 Worker2 Worker3
 - 스키마·필터링·SaaS 통합 강점
 
 ### EventBridge Scheduler (중요)
+> 스케줄에 맞춰서 서비스를 트리거 할 수 있음
 - cron / schedule 실행
   - 정해진 시간마다 실행
 - 서버리스 스케줄러
@@ -539,20 +534,25 @@ Worker1 Worker2 Worker3
 - S3에 저장된 CSV / JSON / Parquet 데이터 분석 가능
 
 ### QuickSight
-- BI 시각화·대시보드 (비즈니스 분석)
+- BI 시각화·대시보드 (비즈니스 분석 도구)
   - **리포팅용 시각화 도구** 
   - 🔸 **실시간 모니터링** 대시보드로는 CloudWatch가 적합
-- ⚠️ **대시보드는 IAM 역할이 아니라 QuickSight 사용자/그룹에게 공유**
+- ⚠️QuickSight 대시보드 접근 권한은 IAM이 아니라 **QuickSight 내부 사용자/그룹 기반으로 관리**
+  - QuickSight = BI 서비스 내부 권한 시스템
+  - 따로 QuickSight User/Group → 대시보드 열람 권한 관리 함
 
-### AWS Glue
+### AWS Glue (자동화 데이터 처리)
+> 서버리스
 - 대규모 배치 ETL(Extract → Transform → Load) **서버리스 서비스**
+  - “S3 → RDS / Redshift 적재”
 - 클러스터 시작 시간(수 분) 걸림
 - Data Catalog로 데이터 위치·형식 자동 정리
 - 언어 (사실상 둘의 차이는 크게 없음)
   - Scala : 기본 값
   - PySpark : 파이썬을 사용 병렬처리에 더 우수
 
-### Amazon EMR
+### Amazon EMR (Spark/Hadoop 직접 운영)
+> 사용자가 EC2 클러스터 관리
 - TB~PB급 빅데이터 처리용 클러스터 서비스
 - EMR 클러스터는 여러 EC2 인스턴스로 구성
 - **직접 관리**하는 Spark/Hadoop 빅데이터 처리 클러스터
@@ -606,16 +606,6 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 - 로그 수집·저장·관리
 - **Subscription**으로 실시간 스트리밍 (OpenSearch 기본 지원)
 
-### AWS 점검/감사 서비스
-| 키워드 | 서비스 |
-|---|---|
-| 리소스 구성 변경 추적·규정 준수 | **Config** |
-| 모범 사례(비용·보안·성능) 체크리스트 | **Trusted Advisor** |
-| EC2/컨테이너 취약점 스캔 | **Inspector** |
-| API 호출 감사 | **CloudTrail** |
-| 위협 탐지 | **GuardDuty** |
-| S3 민감정보 탐지 | **Macie** |
-
 ### Tag
 - AWS 리소스에 붙이는 **Key=Value 라벨**
 - 비용 할당, 권한 제어(ABAC), 자동화 필터에 활용
@@ -651,21 +641,18 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 ## 11. 재해 복구 & 마이그레이션
 
 ### DR 전략 4가지 (RTO/RPO 빠를수록 비쌈)
-| 전략 | RTO | 비용 | 설명 |
-|---|---|---|---|
-| **Backup & Restore** | 시간~일 | 저렴 | 백업만 두고 장애 시 복원 |
-| **Pilot Light** | 분~시간 | 중 | 핵심 시스템만 항상 켜둠 |
-| **Warm Standby** | 분 | 높음 | 축소판이 항상 가동 중 |
-| **Multi-Site Active/Active** | 거의 0 | 매우 높음 | 두 리전 모두 풀가동 |
+| 전략 | RTO | 비용 | 설명                  |
+|---|---|---|---------------------|
+| **Backup & Restore** | 시간~일 | 저렴 | 백업만 두고 장애 시 복원      |
+| **Pilot Light** | 분~시간 | 중 | 핵심 시스템만 항상 켜둠       |
+| **Warm Standby** | 분 | 높음 | 전체 서비스 축소판이 항상 가동 중 |
+| **Multi-Site Active/Active** | 거의 0 | 매우 높음 | 두 리전 모두 풀가동         |
 
 ### AWS Backup
 - 여러 AWS 서비스(DynamoDB, RDS, EBS, EFS 등) 백업 중앙 관리하는 완성된 관리형 서비스 (**운영 비용 최소화**)
 - 일정·보존 정책 설정만으로 자동화
 - 장기 보관(7년 등)도 한 번 설정으로 가능
 - DynamoDB PITR과 차이: PITR은 **최근 35일**까지만
-
-### Route 53 라우팅 정책 (참고)
-- Simple, Weighted, Latency, Failover, Geolocation, Geoproximity, Multi-value
 
 ---
 
@@ -685,12 +672,11 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 
 ### "S3는 서브넷에 속하지 않음"
 - VPC·서브넷 밖의 **리전 단위 서비스**
-- 프라이빗 통신 원하면 → **VPC Gateway Endpoint (S3용)**
+- 프라이빗 통신 원하면 → **VPC Gateway Endpoint (S3/DynamoDB 용)**
 - 우회 방법으로 NAT를 사용하는 방법 또한 있다.
   - 프라이빗 서브넷에 EC2를 올린 후 NAT로 접근 (☠️퍼블릭 IP 관련 꼬아서 낸 악질 문제)
 
-
-@@@@@@@@@@@@@@@@@2
+---
 
 # DynamoDB Streams 
 - DynamoDB 테이블의 데이터 변경(INSERT/UPDATE/DELETE)을 순서대로 기록하여 Lambda 등의 서비스가 실시간으로 처리할 수 있도록 하는 변경 이벤트 스트림입니다.
@@ -725,49 +711,41 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 # NLB/ALB 보안 그룹 지원 여부
 - ALB : ✅ 가능
 - NLB : ❌ NLB 자체엔 직접 적용 불가
-  - 2023년 이후 지원함 다만 - 기존에 만든 NLB에는 못붙임 새로 생성해야 함 
+  - 2023년 이후 지원함 => 기존에 만든 NLB에는 적용X 신규 갱성 시 보안그룹 적용해야 함 
 
 # Launch Template 
-- EC2 생성 설정서
-  - AMI는 어플리케이션 이미지임 서로 다름
+> EC2 인스턴스를 생성할 때 필요한 설정(설계도)을 미리 정의해둔 템플릿
+- EC2 인스턴스 생성 시 필요한 모든 설정을 정의한 템플릿
+- AMI, 인스턴스 타입, 네트워크, 보안그룹, IAM Role 등을 포함
+- Auto Scaling 혹은 반복 배포 시 **해당 내용 기반으로 동일한 환경을 보장**
+- 버전 관리 가능 (템플릿 수정 이력 관리)
 
 # Amazon Elastic Container Registry (ECR)
 - 완전관리형 컨테이너 이미지 저장소(레지스트리)
 - ECR에 이미지 푸시 → Amazon Inspector가 자동으로 그 이미지를 스캔 (보안 검사를 자동으로 실행 )
-- 컨테이너 이미지는 S3 같은 객체 스토리지에 저장하는 게 아니라, ECR 같은 "컨테이너 레지스트리"에 저장하는 게 표준
+- 컨테이너 이미지는 S3 같은 객체 스토리지에 저장 ❌=> ✅ECR 저장 표준
 
 # Amazon CloudWatch Network Monitor
 - AWS와 온프레미스 간의 네트워크 품질(지연 시간, 패킷 손실 등)을 지속적으로 모니터링하는 서비스
-
-# Application Load Balancer(ALB)
-- 경로 기반 라우팅 가능 (url path 기반 라우팅)
 
 # Amazon Cognito
 - AWS에서 제공하는 로그인(인증) 서비스 -> 회원가입/로그인 시스템을 직접 안 만들어도 되게 해주는 서비스
 -  로그인 성공 시 JWT 토큰 발급
 - 실제 서버 API에도 쓸 수 있 
 
-# Amazon FSx File Gateway
-- 온프레미스 환경에서 S3 또는 FSx에 접근하기 위한 캐시 게이트웨이
-
 #  Amazon FSx for Windows File Server
 -  "Windows 기반 애플리케이션" + "SMB 프로토콜" + "안정적인 공유 스토리지"
 
 # AWS Security Token Service (STS)
 - 임시 AWS **자격 증명**을 발급하는 서비스
+  - STS는 IAM Role을 기반으로 임시 자격증명을 발급하는 시스템
 - 임시 권한 부여 = STS + IAM Role
-
 
 # Lambda 실행 모드
 - Reserved Concurrency (예약된 동시 실행) : 이 함수가 사용할 최대 동시 실행 개수 제한
   - 전용 자리 확보
   - 부하 방지 (제한이 있으니)
 - Provisioned Concurrency (프로버저닝된 동시 실행): 미리 실행 환경을 준비(빠른 응답과 Cold Start 방지 목적)
-
-# 컴퓨팅 세이브 플랜
-- EC2 인스턴스 절약 플랜보다 변경에 자유로움 (인스턴스 유형·크기 변경 가능)
-  - EC2 인스턴스 절약 플랜은 인스턴스 유형 변경 없이 고정 사용
-- 지원: ✅ EC2, Lambda, Fargate
 
 # EC2 Instance Savings Plans
 - 지원: ✅ EC2
@@ -809,17 +787,6 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 - Linux의 resize2fs, xfs_growfs 등의 명령으로 파일 시스템 확장이 필요
 - EventBridge + Lambda 또는 AWS Systems Manager(SSM)를 이용해 파일 시스템 확장을 자동화할 수 있음
 
-# DataSync
-> 대용량 데이터를 전송할 때 사용하는 서비스
-- **범위**
-    - 온프레미스 <-> AWS 리전 내 서비스
-    - AWS 리전 내 서비스 <-> AWS 리전 내 서비스
-    - 타사 클라우드 <-> AWS 리전 내 서비스
-- **참고사항** :
-    - **task 단위로 복제**
-    - 실시간 복제를 원할 경우 : eventBridge -> Lambda(Optional) -> DataSync 구조 필요
-    - 백그라운드에서 동작함
-
 # AWS TransferFamily
 - 파일을 송/수신할 때 필요한 FTP 서버 역할을 해주는 서비스
 
@@ -841,10 +808,16 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 - FSx → S3
 - AWS 계정 간 저장소
 ```
-- 서로 다른 저장소 간 데이터를 Task 단위로 복사/동기화하는 서비스
+- 서로 다른 저장소 간 데이터를 **Task 단위**로 복사/동기화하는 서비스
 - 마이그레이션 및 정기 동기화에 적합
 - S3, EFS, FSx, 온프레미스 NAS 등 다양한 저장소 지원
 - Task를 실행해야 동기화가 수행됨 (예약, 수동, API 호출)
+- **참고사항** :
+  - **task 단위로 복제**
+  - 실시간 복제를 원할 경우 : eventBridge -> Lambda(Optional) -> DataSync 구조 필요
+  - 백그라운드에서 동작함
+
+
 
 # RDS Multi AZ 배포 (다중 AZ 배포)
 - 기존 DB는 복제해서 대기 DB(standbyDB)로 생성해두고, 장애 발생 시 대기 DB를 주 DB로 전환하는 기능.
@@ -915,20 +888,22 @@ EventBridge와 차이 (매우 중요 ⭐)
 - Root Domain 연결  : `Alias`
 
 # Transit Gateway
+> VPC GateWay는 대상이 아니다 당연히 저건 GateWay 니깐
 - AWS 네트워크의 중앙 라우터(Hub)로, 여러 VPC와 VPN, Direct Connect를 한곳에서 연결하고 라우팅하는 서비스
-
 ```text
+- VPC ↔ VPC 연결
+- VPC ↔ 온프레미스 연결
+- 네트워크 “허브”
+👉 즉: 네트워크를 연결/중앙화
+
+=================================
+
         Transit Gateway
              |
    -----------------------
    |      |      |      |
  VPC A  VPC B  VPC C  VPC D
 ```
-
-# Lambda 모드
-- Reserved Concurrency = 동시 실행 수를 예약하고 최대치도 제한
-- Provisioned Concurrency = 실행 환경을 미리 준비하여 Cold Start 제거
-- Reserved는 리소스 보호와 격리, Provisioned는 성능(지연 시간) 개선을 위한 기능입니다.
 
 # AWS Organizations
 > Root와 OU는 AWS Organizations 내부의 관리 단위(컨테이너)
@@ -1121,7 +1096,7 @@ EFS = 여러 EC2가 함께 쓰는 네트워크 드라이브
 - AWS 리소스의 메트릭, 로그, 이벤트를 모니터링하는 서비스
 - Dashboard 및 Alarm 제공
 - AWS 서비스(EC2, Lambda, RDS 등)의 메트릭은 자동 수집
-- 애플리케이션 메트릭은 Custom Metric으로 직접 전송해야 함 (🔸 자동 아님)
+- 애플리케이션(게임 등) 메트릭은 Custom Metric으로 직접 전송해야 함 (🔸 자동 아님)
   - 실시간 수집 → Kinesis Data Streams
   - 실시간 처리 → Apache Flink
   - 처리 결과를 CloudWatch Custom Metric으로 전송
@@ -1349,30 +1324,13 @@ API Key / Cache / Usage Plan / Validation
 - 4 . Instance Endpoint (특정 DB 인스턴스 하나만 연결)
   - 테스트/디버그 혹은 특정 인스턴스 접근할 때만 사용
 
-# Disaster Recovery (DR)
-> 장애 발생 시 서비스를 얼마나 빨리 복구할 것인가
-
-- Backup & Restore (복구 가장 느림 - 가장 저렴)
-  - 백업만 저장
-  - 서버 없음 
-- Pilot Light (핵심 서비스[DB 등]만 ON)
-  - 최소한만 실행 시켜 놓음 (핵심 서비스만 실행)
-  - RTO 수십 분 
-- Warm Standby (전체 서비스를 작은 규모로 항상 실행)
-  - 빠른 복구 가능 (최소한의 서비스 자체를 띄워놓고 있으니)
-  - 5분 내외 수준 RTO
-- Active / Active (두 사이트 모두 실제 서비스 중)
-  - 거의 무중단 / 최고 가용성
-  - RTO 0에 수렴
-  - 비쌈
-
 # S3 Transfer Acceleration
 - 업로드 속도를 높이는 기능
 - 업로드 실패에 대한 복구 기능 ❌
   - ✅ 복구가 필요할 떈 "멀티파트 업로드" 기능 사용 필요
 
 # EC2 내부 정보 조회 IP
-- 반드시 "169.254.169.254" 이가
+- 고정 : "169.254.169.254" 이다
 
 # EC2 EBS 볼륨 타입
 - gp3 (범용 SSD) → 일반적인 워크로드, 균형 잡힌 성능/비용
@@ -1398,6 +1356,3 @@ API Key / Cache / Usage Plan / Validation
 - 트래픽 내용(페이로드)은 못 봄 — 어디서 어디로, 허용/거부됐는지만 기록
 - 키워드: "누가 접속했는지 조사", "트래픽 거부/허용 확인", "네트워크 문제 진단"
 
-# AWS에서 이벤트 데이터는 거의 항상 저장 방법 및 위치
-- S3 (저장)
-- Kinesis / Firehose (스트림)
