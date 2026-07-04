@@ -604,6 +604,8 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 
 ### CloudWatch Logs
 - 로그 수집·저장·관리
+- ✅ 실제 사용자의 로그가 아님 서버 운영로그(애플리케이션/인프라 상태 중심)다
+  - 어플리케이션 사용자 통계와 같은 로그는 아테네 사용
 - **Subscription**으로 실시간 스트리밍 (OpenSearch 기본 지원)
 
 ### Tag
@@ -644,7 +646,7 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 | 전략 | RTO | 비용 | 설명                  |
 |---|---|---|---------------------|
 | **Backup & Restore** | 시간~일 | 저렴 | 백업만 두고 장애 시 복원      |
-| **Pilot Light** | 분~시간 | 중 | 핵심 시스템만 항상 켜둠       |
+| **Pilot Light** | 분~시간 | 중 | 핵심 시스템만 준비 상태로 (환경이 미리 구성)   |
 | **Warm Standby** | 분 | 높음 | 전체 서비스 축소판이 항상 가동 중 |
 | **Multi-Site Active/Active** | 거의 0 | 매우 높음 | 두 리전 모두 풀가동         |
 
@@ -1215,7 +1217,7 @@ API Key / Cache / Usage Plan / Validation
 # S3 Lifecycle Policy
 - 객체를 시간 경과에 따라 자동으로 다른 스토리지 클래스로 전환하거나 만료(삭제)시키는 규칙
 
-# EFS Throughput Mode 
+# EFS Throughput Mode (파일 변경)
 - Bursting Throughput (Default)
   - 파일 시스템 크기에 따라 **처리량 자동 증가**
   - 운영 부담 없음
