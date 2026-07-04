@@ -45,7 +45,6 @@
 | 즉시 접근(ms) + 가끔 사용                 | **Glacier Instant Retrieval** |
 | 몇 분~몇 시간 지연 허용                    | **Glacier Flexible Retrieval** |
 | 장기 보관(12h+) + 최저 비용               | **Glacier Deep Archive** |
-| 복제 시간 최소화 + 즉시 고I/O + 프로덕션 영향 X   | **EBS 스냅샷 + FSR** |
 | 사라져도 OK + 최고 I/O 성능               | **EC2 Instance Store** |
 | 원거리에서 대용량 업로드                     | **S3 Transfer Acceleration + Multipart Upload** |
 | Windows 파일(SMB) + 온프레미스·AWS 양쪽 접근 | **FSx for Windows + FSx File Gateway** |
@@ -170,6 +169,7 @@
 ### Storage Gateway 4종류
 > 온프레미스 애플리케이션이 AWS 스토리지(S3, FSx, Snapshot, Glacier)를 기존 방식(SMB/NFS/iSCSI/Tape) 그대로 사용할 수 있게 해주는 브리지 서비스
 > - AWS 스토리지를 사용할 수 있도록 연결해주는 하이브리드 서비스
+
 | 종류 | 용도 | 참고 |
 |---|---|
 | **S3 File Gateway** | S3를 SMB/NFS 파일 서버처럼 사용(자주 사용하는 데이터는 로컬 캐시에 저장) | 파일 자체를 업로드 하였기에 실시간 사용 가능 |
@@ -260,13 +260,15 @@ VPC (10.0.0.0/16)
     - 트래픽 흐름: NACL → SG → 인스턴스 (이중 방어)
 
 ### VPC 게이트웨이 종류
-| 종류 | 역할                                  |
-|---|-------------------------------------|
-| **Internet Gateway (IGW)** | VPC ↔ 인터넷 양방향 통로                    |
-| **NAT Gateway** | 프라이빗 서버의 **나가는 길 전용** (외부 시작 연결 차단) |
-| **VPC Endpoint (Gateway)** | VPC ↔ 🔍 (단2개) S3/DynamoDB 인터넷 우회   |
-| **VPC Endpoint (Interface) / PrivateLink** | 다른 VPC의 특정 서비스 하나 프라이빗 연결           |
-| **Virtual Private Gateway (VGW)** | VPC ↔ 온프레미스 (VPN)                   |
+| 종류 | 위치 | 역할 |
+| --- | --- | --- |
+| **Internet Gateway (IGW)** | VPC 경계 | VPC ↔ 인터넷 간 양방향 통로 |
+| **NAT Gateway** | 퍼블릭 서브넷 | 프라이빗 서버의 외부 통신용(나가는 길 전용, 외부 시작 연결 차단) |
+| **Egress-Only Internet Gateway** | VPC 경계 | NAT Gateway의 IPv6 버전 (IPv6 전용, 아웃바운드 통신 전용) |
+| **VPC Endpoint (Gateway)** | VPC 내부 | S3, DynamoDB 전용 프라이빗 연결 (인터넷 우회, 비용 무료) |
+| **VPC Endpoint (Interface) / PrivateLink** | VPC 내부 | 다른 VPC의 특정 서비스와 프라이빗 연결, 세밀한 접근 제어 |
+| **Virtual Private Gateway (VGW)** | VPC 측 | 온프레미스 VPN 연결 시 AWS 측 종료 지점(터미네이션 포인트) |
+| **Customer Gateway (CGW)** | 온프레미스 측 | 온프레미스 VPN 연결을 위한 고객 측 물리적/소프트웨어 장비 정보 |
 
 ### NAT vs IGW
 | | IGW | NAT |
@@ -293,7 +295,10 @@ VPC (10.0.0.0/16)
 | **CLB** (Classic) | L4/L7 | 레거시 |
 
 ### Gateway Load Balancer (출제 단골)
+- 방화벽/보안 어플라이언스 트래픽 검사용
 - 타사 가상 어플라이언스(방화벽/IDS/IPS) 통합 전용
+- ✅웹 API 통합 시나리오에는 **부적합**
+- ✅Network Firewall은 **GWLB를 내부적으로 사용하는 관리형 서비스**
 - GWLB 엔드포인트로 IP 패킷을 어플라이언스에 보내 검사 후 되돌림
 - **출제 트리거 단어**: third-party appliance, Firewall Appliance, AWS Marketplace Appliance, IDS/IPS, Traffic Inspection, Deep Packet Inspection, Transparent Insertion
 
@@ -345,10 +350,11 @@ VPC (10.0.0.0/16)
 - **Advanced**: 유료, 대규모·고도화 DDoS, 24/7 DRT 대응, 비용 보호
 - 대규모 DDoS + 무중단 → **Shield Advanced + CloudFront**
 
-### KMS
+### AWS KMS
 - 암호화 키 생성 및 관리 (Encrypt/Decrypt 가능)
 - S3, EBS, RDS 등 대부분의 AWS 서비스 암호화에 사용
 - 기본적으로 AWS 관리형 HSM에서 키를 보호
+- 암호화 키 자동 교체를 선택해도 **자동으로 "사용 기록"은 항상 남음**
 
 ※ CloudHSM이 필요한 경우
 - 일반 KMS 키는 CloudHSM에 저장되지 않음
@@ -391,7 +397,9 @@ VPC (10.0.0.0/16)
 - 작업 큐 / 비동기 디커플링
 - 작업을 여러 Worker에게 나눠 처리 (병렬 처리 가능)
 - **Standard**: 빠름, 무제한 확장, 순서 보장 X, 중복 가능
+  - ✅병렬처리에 적합
 - **FIFO**: 순서 보장 + 정확히 한 번 처리
+  - ✏️ 병렬처리에 적합하지 않음
 - **출제 함정 "큐엔 중복 없는데 처리 결과에 중복"** → 원인: **Visibility Timeout이 너무 짧음** (처리가 끝나기 전 다른 컨슈머가 다시 가져감)
 
 ```text
@@ -438,7 +446,7 @@ Worker1 Worker2 Worker3
 - 현재 어느 단계에 있는지 **시각적으로 추적** 가능, 에러 처리·재시도 내장
 - 두 가지 워크플로:
     - **Standard**: 최대 1년 실행, 정확히 한 번 실행, 장기/감사 필요 워크플로
-    - **Express**: 최대 5분, 고처리량, 비용 효율 (IoT·스트리밍 처리)
+    - **Express**: **최대 5분**, 고처리량, 비용 효율 (IoT·스트리밍 처리)
 
 ### Step Functions vs EventBridge (★★ 시험 핵심)
 | 구분 | Step Functions | EventBridge |
@@ -482,6 +490,9 @@ Worker1 Worker2 Worker3
 ### Athena
 - 서버리스 SQL 쿼리 (S3 데이터 직접)
 - 쿼리한 데이터양만큼 과금
+- ✅RDB 데이터를 Apache Parquet 또는 CSV로 변경(이관)하면 질의가 가능해짐
+  - 보고서 작성용 쿼리도 가능함
+- S3에 저장된 CSV / JSON / Parquet 데이터 분석 가능
 
 ### QuickSight
 - BI 시각화·대시보드 (비즈니스 분석)
@@ -516,8 +527,14 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 
 
 ### OpenSearch Service
-- 대량 로그 검색·분석·시각화
+- 로그 및 텍스트 데이터의 검색·분석·시각화 서비스
+- 인덱싱(Indexing)하여 매우 빠른 검색 가능
+- **클러스터를 24시간 운영**하므로 지속적인 비용 발생
+- ✅ 실시간 로그 검색, 실시간 대시보드(Kibana/OpenSearch Dashboards), 모니터링에 적합
+- ❌ 가끔(필요할 때만) 분석하는 경우에는 비용 효율이 떨어짐
+  → S3 + Athena가 더 적합
 - 로그 저장·검색에 사용
+  - 빠르게 검색하고 분석하는 용도 (✅실시간 로그 대시보드를 원할 경우)
 - CloudWatch Logs → OpenSearch 구독 기본 지원
 
 ### AWS AI 관리형 서비스
@@ -625,6 +642,8 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 ### "S3는 서브넷에 속하지 않음"
 - VPC·서브넷 밖의 **리전 단위 서비스**
 - 프라이빗 통신 원하면 → **VPC Gateway Endpoint (S3용)**
+- 우회 방법으로 NAT를 사용하는 방법 또한 있다.
+  - 프라이빗 서브넷에 EC2를 올린 후 NAT로 접근 (☠️퍼블릭 IP 관련 꼬아서 낸 악질 문제)
 
 
 @@@@@@@@@@@@@@@@@2
@@ -695,8 +714,10 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 
 
 # Lambda 실행 모드
-- Reserved Concurrency (프로버저닝된 동시 실 ) : 이 함수가 사용할 최대 동시 실행 개수 제한
-- Provisioned Concurrency (예약된 동시 실행): 미리 실행 환경을 준비(빠른 응답과 Cold Start 방지 목적)
+- Reserved Concurrency (예약된 동시 실행) : 이 함수가 사용할 최대 동시 실행 개수 제한
+  - 전용 자리 확보
+  - 부하 방지 (제한이 있으니)
+- Provisioned Concurrency (프로버저닝된 동시 실행): 미리 실행 환경을 준비(빠른 응답과 Cold Start 방지 목적)
 
 # 컴퓨팅 세이브 플랜
 - EC2 인스턴스 절약 플랜보다 변경에 자유로움 (인스턴스 유형·크기 변경 가능)
@@ -740,16 +761,6 @@ Instance Fleet = 같은 노드 유형 안에서도 여러 유형+구매옵션 �
 - EBS 용량을 늘려도 OS의 파일 시스템은 자동으로 확장되지 않음
 - Linux의 resize2fs, xfs_growfs 등의 명령으로 파일 시스템 확장이 필요
 - EventBridge + Lambda 또는 AWS Systems Manager(SSM)를 이용해 파일 시스템 확장을 자동화할 수 있음
-
-# EFS IA
-> 성능 향상을 위한 기능이 아니라 비용 절감을 위한 기능
-- 자주 사용하지 않는 파일 저장
-- 저장 비용 저렴
-- 접근(읽기) 시 추가 비용 발생
-
-# EFS Lifecycle Policy
-- 일정 기간 미접근 파일을 자동으로 EFS IA로 이동
-- **비용 최적화** 문제의 정답으로 자주 출제
 
 # DataSync
 > 대용량 데이터를 전송할 때 사용하는 서비스
@@ -873,14 +884,20 @@ EventBridge와 차이 (매우 중요 ⭐)
 
 # AWS Organizations
 > Root와 OU는 AWS Organizations 내부의 관리 단위(컨테이너)
+- 여러 AWS 계정을 중앙 관리
+- Consolidated Billing(통합 청구)
+- SCP 적용 가능
+- Multi Account Architecture 기본 
+ 
 - 구조도
-  - Root = AWS 계정 ❌
-  - OU = AWS 계정 ❌
-  -  Account = 실제 AWS 계정입니다. ✅
+  - Root = 최상위 컨테이너 ❌ AWS 계정 아님
+  - OU = 계정을 묶는 그룹 ❌ AWS 계정 아님
+  - Account = 실제 AWS 계정입니다. ✅
+- ☠️ 함정 조심 : "각 사업부마다 AWS Organizations에 별도의 조직을 생성" 라는건 "Organization"을 여러개 만든다는 뜻임
 ```text
 AWS Organizations
-
-Root (조직 전체)
+│
+Root (조직[회사] 전체)
 │
 ├── OU (부서/환경) : Production
 │      ├── AWS Account A (실제 AWS 계정)
@@ -1027,7 +1044,10 @@ EFS = 여러 EC2가 함께 쓰는 네트워크 드라이브
 ```
 
 # API Gateway
+- 다른 애플리케이션과 통합 기능 존재 
+- 권한 부여 단계 자체적으로 권한 확인 가능
 
+## 기능
 ■ Endpoint Type (택 1)
 - Edge-Optimized: CloudFront 기반, 전 세계 사용자 지연 시간 최소화
 - Regional: 같은 리전 사용자 또는 직접 CloudFront를 구성할 때 사용
@@ -1073,6 +1093,15 @@ EFS = 여러 EC2가 함께 쓰는 네트워크 드라이브
 
 # S3
 -  S3는 자주 업데이트되는 세션 데이터를 다루기에 적합하지 않음  (DynamoDB가 훨씬 적합)
+
+# S3 이벤트 알림(S3 Event Notifications)
+- S3 버킷에 특정 일이 생기면(파일 업로드, 삭제 등) 자동으로 알려주는 S3 자체 내장 기능
+```text
+S3 이벤트 알림 → 다음 3곳 중 하나로 "직접" 보낼 수 있음
+   ① AWS Lambda 함수
+   ② Amazon SQS 큐
+   ③ Amazon SNS 토픽
+```
 
 # NAT Gateway
 - Private Subnet의 리소스(EC2 등)가 인터넷으로 Outbound 통신할 수 있도록 하는 서비스
@@ -1147,3 +1176,166 @@ API Key / Cache / Usage Plan / Validation
 # Multi-AZ DB 클러스 VS Read Replica 잘맞는 방향
 - **Multi-AZ DB 클러스터 + 리더 엔드포인트** : "짧고 빈번한 읽기 쿼리"
 - **Read Replica** : "대규모 배치 분석 + 지연 허용"
+
+# EFS IA
+> 성능 향상을 위한 기능이 아니라 비용 절감을 위한 기능
+- 자주 사용하지 않는 파일 저장
+- 저장 비용 저렴
+- 접근(읽기) 시 추가 비용 발생
+
+# EFS Lifecycle Policy
+- 객체를 시간 경과에 따라 자동으로 다른 스토리지 클래스로 전환하거나 만료(삭제)시키는 규칙
+  - ✅ 일정 기간 미접근 파일을 자동으로 EFS IA로 이동
+- **비용 최적화** 문제의 정답으로 자주 출제
+
+# EFS Throughput Mode 
+- Bursting Throughput (Default)
+  - 파일 시스템 크기에 따라 **처리량 자동 증가**
+  - 운영 부담 없음
+
+- Provisioned Throughput
+  - 처리량(MB/s)을 사용자가 **직접 설정**
+  - 파일 크기와 무관하게 고정 성능 제공
+  - 비용 증가 가능
+  - 고정 성능 필요할 때 사용
+
+# PrivateLink
+- VPC 간 **"특정 서비스"**를 인터넷 없이 프라이빗하게 연결하는 서비스
+```text
+✔ 특정 AWS 계정만 접근 허용 가능 (Allowed Principal)
+✔ 특정 VPC만 접근 가능
+✔ 서비스 단위 접근 제어
+✔ 인터넷 노출 없음
+```
+
+# AWS Fargate
+- 노드 개념 자체가 없음 (완전 서버리스)
+- 노드/EC2 관리 필요 없음
+- 자동 확장
+- 사용한 만큼만 비용
+- 문제 풀이 : 
+  - EC2가 보이면 Fargate ❌
+  - 서버리스 ✅
+
+# EKS 실행 방식 3종 정리
+```text
+┌──────────────────────────────────────────────┐
+│                Amazon EKS                    │
+├──────────────────────────────────────────────┤
+│                                              │
+│  1️⃣ FARGATE (서버리스)                        │
+│  ─────────────────────────────────────────   │
+│  Pod → AWS가 실행 환경 자동 제공             │
+│                                              │
+│  ✔ EC2 없음 (노드 개념 없음)                 │
+│  ✔ 운영/패치/확장 관리 없음                  │
+│  ✔ 사용량 기반 과금                          │
+│  ❌ GPU / 고성능 튜닝 제한                   │
+│                                              │
+├──────────────────────────────────────────────┤
+│  2️⃣ MANAGED NODE GROUP                      │
+│  ─────────────────────────────────────────   │
+│  Pod → EC2 Node (AWS 관리)                   │
+│                                              │
+│  ✔ AWS가 EC2 생성/패치 관리                 │
+│  ✔ 안정적인 기본 운영 방식                   │
+│  ✔ 범용 워크로드 적합                        │
+│  ❌ 노드 자체는 여전히 EC2                   │
+│                                              │
+├──────────────────────────────────────────────┤
+│  3️⃣ KARPENTER                              │
+│  ─────────────────────────────────────────   │
+│  Pod → EC2 Node (자동 최적화 생성)           │
+│                                              │
+│  ✔ 필요할 때 최적 EC2 자동 생성             │
+│  ✔ 비용/성능 최적화                         │
+│  ✔ 빠른 스케일링                            │
+│  ❌ 여전히 EC2 기반                          │
+│                                              │
+└──────────────────────────────────────────────┘
+```
+
+# CloudFront + Lambda@Edge
+- CloudFront의 요청/응답을 원하는 대로 조작하는 Lambda
+  - "쿠키 확인해."
+  - "URL 바꿔."
+  - "한국 사람이면 한국 페이지 보내."
+  - "로그인 안 했으면 로그인 페이지로."
+
+# ARN(Amazon Resource Name)
+- AWS 안에서 "이 리소스가 정확히 어떤 것인지" 특정하는 유일한 식별자
+  - AWS 리소스를 유일하게 식별하는 주소(이름)
+
+# 라우팅 테이블 (Route Table)
+- "목적지(IP)로 가려면 다음 어디로 보내야 하는지"를 결정하는 규칙(안내판)
+- 예시
+```text
+시나리오 : VPC 내 Private Subnet에 EC2가 있음 EC2가 인터넷(0.0.0.0/0)으로 나가려고 함
+
+① NAT Gateway 생성
+② 생성만으로는 동작하지 않음
+③ Route Table에 아래 규칙을 추가해야 함
+
+0.0.0.0/0  → NAT Gateway
+
+그러면 EC2가 인터넷으로 나가는 모든 요청은 NAT Gateway를 통해 전달된다.
+```
+
+# Elastic Beanstalk
+- 코드만 올리면 EC2, 로드밸런서, Auto Scaling을 자동으로 구성해주는 "간편한 배포 플랫폼"
+- 내부적으로는 EC2 기반이라, 완전 서버리스 컨테이너(Fargate)보다는 **다소 무거운 구조**
+- 초보자나 **빠른 프로토타입 배포에 적합**
+
+# Aurora Endpoint
+- 1 . Cluster Endpoint (읽기 / 쓰기 가능)
+  - 장애 조치(Failover) 시 자동으로 새로운 Writer로 변경
+- 2 . Reader Endpoint (읽기 - Read Only)
+  - 모든 Aurora Replica 대상으로 자동 로드 밸런싱 (replica 변경에 맞춰 자동 반영)
+- 3 . Custom Endpoint (원하는 Replica 선택 )
+  - 선택한 Replica끼리만 자동 로드 밸런싱
+  - 포인트 단어 : "특정, 선택한, 일부, 보고서용"
+- 4 . Instance Endpoint (특정 DB 인스턴스 하나만 연결)
+  - 테스트/디버그 혹은 특정 인스턴스 접근할 때만 사용
+
+# Disaster Recovery (DR)
+> 장애 발생 시 서비스를 얼마나 빨리 복구할 것인가
+
+- Backup & Restore (복구 가장 느림 - 가장 저렴)
+  - 백업만 저장
+  - 서버 없음 
+- Pilot Light (핵심 서비스[DB 등]만 ON)
+  - 최소한만 실행 시켜 놓음 (핵심 서비스만 실행)
+  - RTO 수십 분 
+- Warm Standby (전체 서비스를 작은 규모로 항상 실행)
+  - 빠른 복구 가능 (최소한의 서비스 자체를 띄워놓고 있으니)
+  - 5분 내외 수준 RTO
+- Active / Active (두 사이트 모두 실제 서비스 중)
+  - 거의 무중단 / 최고 가용성
+  - RTO 0에 수렴
+  - 비쌈
+
+# S3 Transfer Acceleration
+- 업로드 속도를 높이는 기능
+- 업로드 실패에 대한 복구 기능 ❌
+  - ✅ 복구가 필요할 떈 "멀티파트 업로드" 기능 사용 필요
+
+# EC2 내부 정보 조회 IP
+- 반드시 "169.254.169.254" 이가
+
+# EC2 EBS 볼륨 타입
+- gp3 (범용 SSD) → 일반적인 워크로드, 균형 잡힌 성능/비용
+- io1/io2 (프로비저닝된 IOPS SSD) → 미션 크리티컬, 일관된 고성능/저지연
+- st1 (처리량 최적화 HDD) → 대용량 순차 처리 (빅데이터, 로그)
+- sc1 (콜드 HDD) → 자주 접근 안 하는 대용량 데이터, 최저 비용
+- Instance Store → 초고성능이지만 휘발성(임시), 인스턴스 종료 시 데이터 소실
+
+# RDS 스토리지 타입 
+- gp2 (구형):
+  - 용량(GB) × 3 = IOPS (용량에 비례, 최대 16,000 IOPS)
+  - 단점: 용량을 늘려야만 성능도 늘어남 (용량-성능 묶여있음)
+- gp3 (범용 SSD) → 일반적인 DB 워크로드, 비용 효율적
+  - 3,000 IOPS 기본 제공 → 비용 가장 효율적
+  - ✅ 스토리지 용량과 IOPS를 따로따로(독립적으로) 조절 가능
+- io1/io2 (프로비저닝된 IOPS SSD) → 미션 크리티컬 DB, 일관된 고IOPS 필요
+  - 초고 IOPS 필요 (고성능 DB)
+  - 비용 가장 비쌈
